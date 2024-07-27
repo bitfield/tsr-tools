@@ -1,4 +1,4 @@
-# Know Go
+# The Secrets of Rust: Tools
 
 [![](cover_small.png)](https://bitfieldconsulting.com/books/rust-tools)
 
