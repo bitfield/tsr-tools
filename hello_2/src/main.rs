@@ -1,5 +1,5 @@
-use hello_2 as hello;
+use hello_2::print;
 
-fn main() -> std::io::Result<()> {
-    hello::print(std::io::stdout())
+fn main() {
+    print();
 }
