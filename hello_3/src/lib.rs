@@ -1,12 +1,12 @@
-use std::io::{self, Write};
+use std::io::Write;
 
-pub fn print(mut w: impl Write) -> io::Result<()> {
-    writeln!(w, "Hello, world!")
+pub fn print(mut w: impl Write) {
+    writeln!(w, "Hello, world!");
 }
 
 #[test]
 fn print_writes_message_to_writer() {
     let mut buf = Vec::new();
-    print(&mut buf).expect("write should succeed");
+    print(&mut buf);
     assert_eq!("Hello, world!\n", String::from_utf8_lossy(&buf));
 }

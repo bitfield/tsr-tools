@@ -2,6 +2,6 @@ use std::io;
 
 use hello_3::print;
 
-fn main() -> io::Result<()> {
-    print(io::stdout())
+fn main() {
+    print(io::stdout());
 }
