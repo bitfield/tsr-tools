@@ -47,7 +47,8 @@ mod tests {
 
     #[test]
     fn count_lines_in_path_fn_returns_expected_result() {
-        let lines = count_lines_in_path(&"tests/data/test.txt".to_string()).unwrap();
+        let path = String::from("tests/data/test.txt");
+        let lines = count_lines_in_path(&path).unwrap();
         assert_eq!(2, lines);
     }
 }
