@@ -1,3 +1,3 @@
 [workspace]
-members = ["counter_1", "counter_2", "counter_3", "scratch", "hello_1", "hello_2", "hello_3", "hello_4", "counter_4", "counter_5"]
+members = ["counter_1", "counter_2", "counter_3", "scratch", "hello_1", "hello_2", "hello_3", "hello_4", "counter_4", "counter_5", "counter_6"]
 resolver = "2"

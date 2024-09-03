@@ -1,6 +1,6 @@
-use std::io::{BufRead, BufReader, Read};
+use std::io::{self, BufRead, BufReader};
 
-pub fn count_lines(input: impl Read) -> usize {
+pub fn count_lines(input: impl io::Read) -> usize {
     let reader = BufReader::new(input);
     reader.lines().count()
 }
@@ -17,4 +17,3 @@ mod tests {
         assert_eq!(2, lines);
     }
 }
-// 
