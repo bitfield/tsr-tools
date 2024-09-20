@@ -4,6 +4,6 @@ pub fn world() -> String {
 }
 
 #[test]
-fn world_returns_expected_string() {
+fn world_returns_hello_world() {
     assert_eq!("Hello, world!", world());
 }

@@ -1,0 +1,12 @@
+[package]
+name = "counter_9"
+version = "0.1.0"
+edition = "2021"
+authors = ["John Arundel <john@bitfieldconsulting.com>"]
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+anyhow = "1.0.89"
+assert_cmd = "2.0.16"
+clap = { version = "4.5.17", features = ["derive"] }
+predicates = "3.1.2"
