@@ -20,7 +20,7 @@ pub fn append(path: impl AsRef<Path>, line: &str) -> io::Result<()> {
 
 #[cfg(test)]
 mod tests {
-    use tempfile::{env::temp_dir, NamedTempFile};
+    use tempfile::{env::temp_dir, tempdir, NamedTempFile};
 
     use super::*;
 
@@ -57,7 +57,7 @@ mod tests {
 
     #[test]
     fn append_creates_file_if_necessary() {
-        let dir = temp_dir();
+        let dir = tempdir().unwrap().into_path();
         let path = dir.join("logbook.txt");
         append(&path, "test").unwrap();
 
