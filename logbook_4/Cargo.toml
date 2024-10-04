@@ -1,0 +1,8 @@
+[package]
+name = "logbook_4"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.89"
+tempfile = "3.13.0"

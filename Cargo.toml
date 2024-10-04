@@ -1,3 +1,22 @@
 [workspace]
-members = ["counter_1", "counter_2", "counter_3", "scratch", "hello_1", "hello_2", "hello_3", "hello_4", "counter_4", "counter_5", "counter_6", "counter_7", "counter_8", "counter_9", "logbook_1", "logbook_2", "logbook_3"]
+members = [
+    "counter_1",
+    "counter_2",
+    "counter_3",
+    "scratch",
+    "hello_1",
+    "hello_2",
+    "hello_3",
+    "hello_4",
+    "counter_4",
+    "counter_5",
+    "counter_6",
+    "counter_7",
+    "counter_8",
+    "counter_9",
+    "logbook_1",
+    "logbook_2",
+    "logbook_3",
+    "logbook_4",
+]
 resolver = "2"
