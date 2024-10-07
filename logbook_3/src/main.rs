@@ -3,12 +3,11 @@ use std::io::Write;
 use std::{env, fs::OpenOptions};
 
 fn main() -> anyhow::Result<()> {
-    let line = env::args().skip(1).collect::<Vec<_>>().join(" ");
-
-    if line.is_empty() {
+    let args: Vec<_> = env::args().skip(1).collect();
+    if args.is_empty() {
         if fs::exists("logbook.txt")? {
             let text = fs::read_to_string("logbook.txt")?;
-            println!("{text}");
+            print!("{text}");
         } else {
             println!("Logbook is empty");
         }
@@ -17,7 +16,7 @@ fn main() -> anyhow::Result<()> {
             .create(true)
             .append(true)
             .open("logbook.txt")?;
-        writeln!(logbook, "{line}")?;
+        writeln!(logbook, "{}", args.join(" "))?;
     }
     Ok(())
 }
