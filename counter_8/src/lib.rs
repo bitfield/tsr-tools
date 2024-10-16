@@ -1,4 +1,5 @@
 use anyhow::Context;
+
 use std::{
     fs::File,
     io::{self, BufRead, BufReader},
@@ -11,9 +12,9 @@ pub struct Count {
 }
 
 /// Counts words and lines in the given reader.
-/// 
+///
 /// # Errors
-/// 
+///
 /// Returns any error from [`BufReader::read_line`].
 pub fn count(input: impl io::Read) -> io::Result<Count> {
     let mut reader = BufReader::new(input);
@@ -32,9 +33,9 @@ pub fn count(input: impl io::Read) -> io::Result<Count> {
 }
 
 /// Counts words and lines in the file at `path`.
-/// 
+///
 /// # Errors
-/// 
+///
 /// Returns any error from [`File::open`] or [`count`].
 pub fn count_in_path(path: &String) -> anyhow::Result<Count> {
     let file = File::open(path).with_context(|| path.clone())?;
@@ -43,8 +44,9 @@ pub fn count_in_path(path: &String) -> anyhow::Result<Count> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use std::io::{self, ErrorKind};
+
+    use super::*;
 
     #[test]
     fn count_counts_lines_and_words_in_input() {
@@ -67,7 +69,7 @@ mod tests {
         let result = count(ErrorReader);
         assert!(result.is_err());
     }
-    
+
     #[test]
     fn count_in_path_fn_counts_lines_and_words_in_given_file() {
         let path = String::from("tests/data/test.txt");

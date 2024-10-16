@@ -1,6 +1,6 @@
-use std::fs;
+use std::env;
+use std::fs::{self, File};
 use std::io::Write;
-use std::{env, fs::OpenOptions};
 
 fn main() -> anyhow::Result<()> {
     let args: Vec<_> = env::args().skip(1).collect();
@@ -12,7 +12,7 @@ fn main() -> anyhow::Result<()> {
             println!("Logbook is empty");
         }
     } else {
-        let mut logbook = OpenOptions::new()
+        let mut logbook = File::options()
             .create(true)
             .append(true)
             .open("logbook.txt")?;

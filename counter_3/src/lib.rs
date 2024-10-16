@@ -12,8 +12,9 @@ pub fn count_lines(input: impl io::Read) -> io::Result<usize> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use std::io::{self, ErrorKind};
+
+    use super::*;
 
     #[test]
     fn count_lines_fn_counts_lines_in_input() {

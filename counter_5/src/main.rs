@@ -1,6 +1,7 @@
+use anyhow::Context;
+
 use std::{env, fs::File};
 
-use anyhow::Context;
 use counter_5::count_lines;
 
 fn main() -> anyhow::Result<()> {

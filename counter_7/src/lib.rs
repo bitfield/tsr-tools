@@ -1,4 +1,5 @@
 use anyhow::Context;
+
 use std::{
     fs::File,
     io::{self, BufRead, BufReader},
@@ -21,8 +22,9 @@ pub fn count_lines_in_path(path: &String) -> anyhow::Result<usize> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use std::io::{self, ErrorKind};
+
+    use super::*;
 
     #[test]
     fn count_lines_fn_counts_lines_in_input() {

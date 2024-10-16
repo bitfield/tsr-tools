@@ -1,4 +1,5 @@
 use anyhow::Context;
+
 use std::{env, fs::File};
 
 use counter_6::count_lines;

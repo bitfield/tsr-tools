@@ -1,6 +1,7 @@
+use anyhow::anyhow;
+
 use std::env;
 
-use anyhow::anyhow;
 use counter_7::count_lines_in_path;
 
 fn main() -> anyhow::Result<()> {
