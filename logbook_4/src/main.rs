@@ -1,6 +1,5 @@
-use std::env;
-
 use logbook_4 as logbook;
+use std::env;
 
 fn main() -> anyhow::Result<()> {
     let args: Vec<_> = env::args().skip(1).collect();

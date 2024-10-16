@@ -28,7 +28,7 @@ mod tests {
     fn count_lines_fn_counts_lines_in_input() {
         let input = io::Cursor::new("line 1\nline 2\n");
         let lines = count_lines(input).unwrap();
-        assert_eq!(2, lines);
+        assert_eq!(lines, 2);
     }
 
     struct ErrorReader;
@@ -49,6 +49,6 @@ mod tests {
     fn count_lines_in_path_fn_counts_lines_in_given_file() {
         let path = String::from("tests/data/test.txt");
         let lines = count_lines_in_path(&path).unwrap();
-        assert_eq!(2, lines);
+        assert_eq!(lines, 2);
     }
 }

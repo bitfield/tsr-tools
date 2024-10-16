@@ -4,9 +4,9 @@ use std::{
     path::Path,
 };
 
-pub fn read_to_string(path: &str) -> io::Result<Option<String>> {
-    if fs::exists(path)? {
-        let text = fs::read_to_string(path)?;
+pub fn read_to_string(path: impl AsRef<Path>) -> io::Result<Option<String>> {
+    if fs::exists(&path)? {
+        let text = fs::read_to_string(&path)?;
         if text.is_empty() {
             Ok(None)
         } else {
@@ -17,17 +17,18 @@ pub fn read_to_string(path: &str) -> io::Result<Option<String>> {
     }
 }
 
-pub fn append(path: impl AsRef<Path>, line: &str) -> io::Result<()> {
+pub fn append(path: impl AsRef<Path>, msg: &str) -> io::Result<()> {
     let mut logbook = OpenOptions::new().create(true).append(true).open(path)?;
-    writeln!(logbook, "{line}")
+    writeln!(logbook, "{msg}")
 }
 
 #[cfg(test)]
 mod tests {
     use std::fs;
 
-    use super::*;
     use tempfile::tempdir;
+
+    use super::*;
 
     #[test]
     fn read_to_string_fn_reads_contents_of_file_as_string() {
@@ -50,7 +51,7 @@ mod tests {
     #[test]
     fn append_creates_file_if_necessary() {
         let dir = tempdir().unwrap();
-        let path = dir.path().join("logbook.txt");
+        let path = dir.path().join("newlog.txt");
         append(&path, "hello logbook").unwrap();
         let text = fs::read_to_string(path).unwrap();
         assert_eq!(text, "hello logbook\n");

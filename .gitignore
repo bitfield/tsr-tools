@@ -1,4 +1,4 @@
 .DS_Store
 /target
 logbook.txt
-!**/testdata/logbook.txt
+!**/data/logbook.txt
