@@ -52,8 +52,8 @@ mod tests {
     fn count_counts_lines_and_words_in_input() {
         let input = io::Cursor::new("word1 word2\nword3");
         let count = count(input).unwrap();
-        assert_eq!(count.lines, 2);
-        assert_eq!(count.words, 3);
+        assert_eq!(count.lines, 2, "wrong line count");
+        assert_eq!(count.words, 3, "wrong word count");
     }
 
     struct ErrorReader;
@@ -74,7 +74,7 @@ mod tests {
     fn count_in_path_fn_counts_lines_and_words_in_given_file() {
         let path = String::from("tests/data/test.txt");
         let count = count_in_path(&path).unwrap();
-        assert_eq!(count.lines, 2);
-        assert_eq!(count.words, 4);
+        assert_eq!(count.lines, 2, "wrong line count");
+        assert_eq!(count.words, 4, "wrong word count");
     }
 }

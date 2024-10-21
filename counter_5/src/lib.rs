@@ -1,9 +1,8 @@
-use std::io::{self, BufRead, BufReader};
+use std::io::{self, BufRead};
 
-pub fn count_lines(input: impl io::Read) -> io::Result<usize> {
-    let reader = BufReader::new(input);
+pub fn count_lines(input: impl BufRead) -> io::Result<usize> {
     let mut count = 0;
-    for line_res in reader.lines() {
+    for line_res in input.lines() {
         line_res?;
         count += 1;
     }
@@ -12,20 +11,20 @@ pub fn count_lines(input: impl io::Read) -> io::Result<usize> {
 
 #[cfg(test)]
 mod tests {
-    use std::io::{self, ErrorKind};
+    use std::io::{self, BufReader, Cursor, ErrorKind, Read};
 
     use super::*;
 
     #[test]
     fn count_lines_fn_counts_lines_in_input() {
-        let input = io::Cursor::new("line 1\nline 2\n");
+        let input = Cursor::new("line 1\nline 2\n");
         let lines = count_lines(input).unwrap();
-        assert_eq!(lines, 2);
+        assert_eq!(lines, 2, "wrong line count");
     }
 
     struct ErrorReader;
 
-    impl io::Read for ErrorReader {
+    impl Read for ErrorReader {
         fn read(&mut self, _buf: &mut [u8]) -> io::Result<usize> {
             Err(io::Error::new(ErrorKind::Other, "oh no"))
         }
@@ -33,7 +32,8 @@ mod tests {
 
     #[test]
     fn count_lines_fn_returns_any_read_error() {
-        let result = count_lines(ErrorReader);
+        let reader = BufReader::new(ErrorReader);
+        let result = count_lines(reader);
         assert!(result.is_err());
     }
 }

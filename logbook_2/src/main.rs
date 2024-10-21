@@ -12,6 +12,6 @@ fn main() -> anyhow::Result<()> {
         .create(true)
         .append(true)
         .open("logbook.txt")?;
-    writeln!(logbook, "{}", &args.join(" "))?;
+    writeln!(logbook, "{}", args.join(" "))?;
     Ok(())
 }
