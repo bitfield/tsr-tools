@@ -1,6 +1,6 @@
-use std::io;
+use std::io::{self, Write};
 
-pub fn print(mut w: impl io::Write) -> io::Result<()> {
+pub fn print(mut w: impl Write) -> io::Result<()> {
     writeln!(w, "Hello, world!")
 }
 

@@ -16,12 +16,11 @@ pub struct Count {
 /// # Errors
 ///
 /// Returns any error from [`BufReader::read_line`].
-pub fn count(input: impl io::Read) -> io::Result<Count> {
-    let mut reader = BufReader::new(input);
+pub fn count(mut input: impl BufRead) -> io::Result<Count> {
     let mut count = Count::default();
     let mut line = String::new();
     loop {
-        let bytes_read = reader.read_line(&mut line)?;
+        let bytes_read = input.read_line(&mut line)?;
         if bytes_read == 0 {
             break;
         }
@@ -39,12 +38,13 @@ pub fn count(input: impl io::Read) -> io::Result<Count> {
 /// Returns any error from [`File::open`] or [`count`].
 pub fn count_in_path(path: &String) -> anyhow::Result<Count> {
     let file = File::open(path).with_context(|| path.clone())?;
+    let file = BufReader::new(file);
     count(file).with_context(|| path.clone())
 }
 
 #[cfg(test)]
 mod tests {
-    use std::io::{self, ErrorKind};
+    use std::io::{self, ErrorKind, Read};
 
     use super::*;
 
@@ -58,7 +58,7 @@ mod tests {
 
     struct ErrorReader;
 
-    impl io::Read for ErrorReader {
+    impl Read for ErrorReader {
         fn read(&mut self, _buf: &mut [u8]) -> io::Result<usize> {
             Err(io::Error::new(ErrorKind::Other, "oh no"))
         }
@@ -66,7 +66,8 @@ mod tests {
 
     #[test]
     fn count_returns_any_read_error() {
-        let result = count(ErrorReader);
+        let reader = BufReader::new(ErrorReader);
+        let result = count(reader);
         assert!(result.is_err());
     }
 
