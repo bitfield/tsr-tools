@@ -1,4 +1,5 @@
-//! Record observations in a logbook file, or list previous observations.
+//! Record observations in a logbook file, or list previous
+//! observations.
 
 use std::fs::{self, File};
 use std::io::{self, Write};
