@@ -52,6 +52,6 @@ mod tests {
     fn count_lines_in_path_fn_counts_lines_in_given_file() {
         let path = String::from("tests/data/test.txt");
         let lines = count_lines_in_path(&path).unwrap();
-        assert_eq!(lines, 2);
+        assert_eq!(lines, 2, "wrong line count");
     }
 }
