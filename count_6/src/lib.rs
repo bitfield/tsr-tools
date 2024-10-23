@@ -11,13 +11,13 @@ pub fn count_lines(input: impl BufRead) -> io::Result<usize> {
 
 #[cfg(test)]
 mod tests {
-    use std::io::{self, BufReader, ErrorKind, Read};
+    use std::io::{self, BufReader, Cursor, ErrorKind, Read};
 
     use super::*;
 
     #[test]
     fn count_lines_fn_counts_lines_in_input() {
-        let input = io::Cursor::new("line 1\nline 2\n");
+        let input = Cursor::new("line 1\nline 2\n");
         let lines = count_lines(input).unwrap();
         assert_eq!(lines, 2, "wrong line count");
     }

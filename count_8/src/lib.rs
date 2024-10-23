@@ -44,13 +44,13 @@ pub fn count_in_path(path: &String) -> anyhow::Result<Count> {
 
 #[cfg(test)]
 mod tests {
-    use std::io::{self, BufReader, ErrorKind, Read};
+    use std::io::{self, BufReader, Cursor, ErrorKind, Read};
 
     use super::*;
 
     #[test]
     fn count_counts_lines_and_words_in_input() {
-        let input = io::Cursor::new("word1 word2\nword3");
+        let input = Cursor::new("word1 word2\nword3");
         let count = count(input).unwrap();
         assert_eq!(count.lines, 2, "wrong line count");
         assert_eq!(count.words, 3, "wrong word count");

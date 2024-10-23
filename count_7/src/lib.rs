@@ -22,13 +22,13 @@ pub fn count_lines_in_path(path: &String) -> anyhow::Result<usize> {
 
 #[cfg(test)]
 mod tests {
-    use std::io::{self, ErrorKind, Read};
+    use std::io::{self, Cursor, ErrorKind, Read};
 
     use super::*;
 
     #[test]
     fn count_lines_fn_counts_lines_in_input() {
-        let input = io::Cursor::new("line 1\nline 2\n");
+        let input = Cursor::new("line 1\nline 2\n");
         let lines = count_lines(input).unwrap();
         assert_eq!(lines, 2, "wrong line count");
     }
