@@ -158,47 +158,47 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d3fd119d74b830634cea2a0f58bbd0d54540518a14397557951e79340abc28c0"
 
 [[package]]
-name = "counter_1"
+name = "count_1"
 version = "0.1.0"
 
 [[package]]
-name = "counter_2"
+name = "count_2"
 version = "0.1.0"
 
 [[package]]
-name = "counter_3"
-version = "0.1.0"
-dependencies = [
- "anyhow",
-]
-
-[[package]]
-name = "counter_4"
-version = "0.1.0"
-
-[[package]]
-name = "counter_5"
+name = "count_3"
 version = "0.1.0"
 dependencies = [
  "anyhow",
 ]
 
 [[package]]
-name = "counter_6"
+name = "count_4"
+version = "0.1.0"
+
+[[package]]
+name = "count_5"
 version = "0.1.0"
 dependencies = [
  "anyhow",
 ]
 
 [[package]]
-name = "counter_7"
+name = "count_6"
 version = "0.1.0"
 dependencies = [
  "anyhow",
 ]
 
 [[package]]
-name = "counter_8"
+name = "count_7"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+]
+
+[[package]]
+name = "count_8"
 version = "0.1.0"
 dependencies = [
  "anyhow",
@@ -207,7 +207,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "counter_9"
+name = "count_9"
 version = "0.1.0"
 dependencies = [
  "anyhow",
