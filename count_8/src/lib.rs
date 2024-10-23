@@ -68,7 +68,7 @@ mod tests {
     fn count_returns_any_read_error() {
         let reader = BufReader::new(ErrorReader);
         let result = count(reader);
-        assert!(result.is_err());
+        assert!(result.is_err(), "no error returned");
     }
 
     #[test]
