@@ -6,5 +6,5 @@ authors = ["John Arundel <john@bitfieldconsulting.com>"]
 license = "MIT OR Apache-2.0"
 
 [dependencies]
-anyhow = "1.0.86"
-tempfile = "3.13.0"
+anyhow = "1.0.93"
+tempfile = "3.14.0"

@@ -17,6 +17,6 @@ members = [
     "logbook_1",
     "logbook_2",
     "logbook_3",
-    "logbook_4",
+    "logbook_4", "memo_1",
 ]
 resolver = "2"
