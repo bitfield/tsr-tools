@@ -1,7 +1,7 @@
 use clap::Parser;
 
+use memo_4 as memo;
 use memo::{Memo, Memos, Status};
-use scratch as memo;
 
 #[derive(Parser)]
 /// Store and manage simple reminders.
@@ -9,9 +9,6 @@ struct Args {
     /// Mark all matching memos as done
     #[arg(short, long)]
     done: bool,
-    /// Delete all memos with status “done”
-    #[arg(short, long)]
-    purge: bool,
     /// Text of the memo to store or mark as done
     text: Vec<String>,
 }
@@ -20,10 +17,6 @@ fn main() -> anyhow::Result<()> {
     let args = Args::parse();
     let mut memos = Memos::open("memos.json")?;
     let text = args.text.join(" ");
-    if args.purge {
-        memos.purge_done();
-        memos.sync()?;
-    }
     if args.done {
         for m in memos.find_all(&text) {
             m.status = Status::Done;

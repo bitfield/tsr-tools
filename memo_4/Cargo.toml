@@ -1,13 +1,11 @@
 [package]
-name = "scratch"
+name = "memo_4"
 version = "0.1.0"
 edition = "2021"
-authors = ["John Arundel <john@bitfieldconsulting.com>"]
-license = "MIT OR Apache-2.0"
 
 [dependencies]
 anyhow = "1.0.93"
 clap = { version = "4.5.21", features = ["derive"] }
 serde = { version = "1.0.215", features = ["derive"] }
-serde_json = "1.0.132"
+serde_json = "1.0.133"
 tempfile = "3.14.0"
