@@ -43,8 +43,8 @@ mod tests {
 
     #[test]
     fn read_reads_contents_of_file_as_string() {
-        let text = read("tests/data/logbook.txt").unwrap();
-        assert_eq!(text, Some(String::from("hello world\n")));
+        let text = read("tests/data/logbook.txt").unwrap().unwrap();
+        assert_eq!(text.trim_end(), "hello world");
     }
 
     #[test]

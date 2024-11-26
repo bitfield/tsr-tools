@@ -24,7 +24,7 @@ impl Memos {
     pub fn purge_done(&mut self) {
         self.inner.retain(|m| m.status != Status::Done);
     }
-    
+
     /// Reads the contents of the memo file at `path`.
     ///
     /// Returns an empty [`Memos`] if the file does not exist or is empty.
