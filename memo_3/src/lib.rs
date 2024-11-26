@@ -14,6 +14,14 @@ pub struct Memos {
 }
 
 impl Memos {
+    /// Reads the contents of the memo file at `path`.
+    ///
+    /// Returns an empty [`Memos`] if the file does not exist or is empty.
+    ///
+    /// # Errors
+    ///
+    /// Returns any error from [`fs::exists`], [`File::open`], or
+    /// [`serde_json::from_reader`].
     pub fn open(path: impl AsRef<Path>) -> io::Result<Self> {
         let mut memos = Self {
             path: PathBuf::from(path.as_ref()),
@@ -26,6 +34,11 @@ impl Memos {
         Ok(memos)
     }
 
+    /// Writes `memos` to the file at `path`, creating it if necessary.
+    ///
+    /// # Errors
+    ///
+    /// Returns any error from [`File::create`] or [`serde_json::to_writer`].
     pub fn sync(&self) -> io::Result<()> {
         let file = File::create(&self.path)?;
         serde_json::to_writer(BufWriter::new(file), &self.inner)?;

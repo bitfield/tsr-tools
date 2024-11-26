@@ -4,9 +4,9 @@ use memo::{Memo, Memos, Status};
 use memo_4 as memo;
 
 #[derive(Parser)]
-/// Store and manage simple reminders.
+/// Stores and manage simple reminders.
 struct Args {
-    /// Mark all matching memos as done
+    /// Marks all matching memos as done
     #[arg(short, long)]
     done: bool,
     /// Text of the memo to store or mark as done

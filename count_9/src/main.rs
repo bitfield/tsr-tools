@@ -5,7 +5,7 @@ use count_9::count_in_path;
 #[derive(Parser)]
 /// Counts lines or words in the specified files
 struct Args {
-    /// Count words instead of lines
+    /// Counts words instead of lines
     #[arg(short, long)]
     words: bool,
 

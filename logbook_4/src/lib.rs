@@ -5,7 +5,7 @@ use std::fs::{self, File};
 use std::io::{self, Write};
 use std::path::Path;
 
-/// Read the contents of the logbook file at `path`.
+/// Reads the contents of the logbook file at `path`.
 ///
 /// Returns [`None`] if the file does not exist or is empty.
 ///
@@ -25,7 +25,7 @@ pub fn read(path: impl AsRef<Path>) -> io::Result<Option<String>> {
     }
 }
 
-/// Append `msg` to the logbook file at `path`, creating the file if necessary.
+/// Appends `msg` to the logbook file at `path`, creating the file if necessary.
 ///
 /// # Errors
 ///

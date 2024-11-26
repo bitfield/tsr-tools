@@ -4,6 +4,13 @@ use std::{
     path::Path,
 };
 
+/// Reads the contents of the memo file at `path`.
+///
+/// Returns an empty [`Vec`] if the file does not exist or is empty.
+///
+/// # Errors
+///
+/// Returns any error from [`fs::exists`], [`File::open`], or [`BufRead::lines`].
 pub fn open(path: impl AsRef<Path>) -> io::Result<Vec<String>> {
     if fs::exists(&path)? {
         let file = BufReader::new(File::open(&path)?);
@@ -13,6 +20,11 @@ pub fn open(path: impl AsRef<Path>) -> io::Result<Vec<String>> {
     }
 }
 
+/// Writes `memos` to the file at `path`, creating it if necessary.
+///
+/// # Errors
+///
+/// Returns any error from [`fs::write`].
 pub fn sync(memos: &[String], path: impl AsRef<Path>) -> io::Result<()> {
     fs::write(&path, memos.join("\n"))
 }

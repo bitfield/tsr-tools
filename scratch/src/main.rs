@@ -4,12 +4,12 @@ use memo::{Memo, Memos, Status};
 use scratch as memo;
 
 #[derive(Parser)]
-/// Store and manage simple reminders.
+/// Stores and manages simple reminders.
 struct Args {
-    /// Mark all matching memos as done
+    /// Marks all matching memos as done
     #[arg(short, long)]
     done: bool,
-    /// Delete all memos with status “done”
+    /// Deletes all memos with status “done”
     #[arg(short, long)]
     purge: bool,
     /// Text of the memo to store or mark as done

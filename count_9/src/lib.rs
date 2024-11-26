@@ -11,7 +11,7 @@ pub struct Count {
     pub words: usize,
 }
 
-/// Counts words and lines in the given reader.
+/// Counts words and lines in `input`.
 ///
 /// # Errors
 ///

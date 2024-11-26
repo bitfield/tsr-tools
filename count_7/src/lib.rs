@@ -5,6 +5,11 @@ use std::{
     io::{self, BufRead, BufReader},
 };
 
+/// Counts lines in `input`.
+///
+/// # Errors
+///
+/// Returns any error from [`BufRead::lines`].
 pub fn count_lines(input: impl BufRead) -> io::Result<usize> {
     let mut count = 0;
     for line_res in input.lines() {
@@ -14,6 +19,11 @@ pub fn count_lines(input: impl BufRead) -> io::Result<usize> {
     Ok(count)
 }
 
+/// Counts lines in the file at `path`.
+///
+/// # Errors
+///
+/// Returns any error from [`File::open`] or [`count_lines`].
 pub fn count_lines_in_path(path: &String) -> anyhow::Result<usize> {
     let file = File::open(path).with_context(|| path.clone())?;
     let file = BufReader::new(file);

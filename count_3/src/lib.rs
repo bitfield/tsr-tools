@@ -1,5 +1,10 @@
 use std::io::{self, BufRead};
 
+/// Counts lines in `input`.
+///
+/// # Errors
+///
+/// Returns any error from [`BufRead::lines`].
 pub fn count_lines(input: impl BufRead) -> io::Result<usize> {
     let mut count = 0;
     for line_res in input.lines() {
