@@ -1,5 +1,8 @@
 use std::{
-    fmt::Display, fs::{self, File}, io::{self, BufReader, BufWriter}, path::{Path, PathBuf}
+    fmt::Display,
+    fs::{self, File},
+    io::{self, BufReader, BufWriter},
+    path::{Path, PathBuf},
 };
 
 use serde::{Deserialize, Serialize};

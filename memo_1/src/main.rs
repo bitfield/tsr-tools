@@ -1,7 +1,7 @@
 use std::env;
 
-use memo_1 as memo;
 use memo::{open, sync};
+use memo_1 as memo;
 
 fn main() -> anyhow::Result<()> {
     let mut memos = open("memos.txt")?;

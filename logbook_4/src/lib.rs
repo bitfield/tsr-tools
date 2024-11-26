@@ -31,8 +31,7 @@ pub fn read(path: impl AsRef<Path>) -> io::Result<Option<String>> {
 ///
 /// Returns any error from [`open`](fs::OpenOptions::open) or [`writeln!`].
 pub fn append(path: impl AsRef<Path>, msg: &str) -> io::Result<()> {
-    let mut logbook = File::options().create(true).append(true)
-        .open(path)?;
+    let mut logbook = File::options().create(true).append(true).open(path)?;
     writeln!(logbook, "{msg}")
 }
 
