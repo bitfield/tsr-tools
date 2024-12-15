@@ -1,10 +1,10 @@
-use anyhow::anyhow;
+use anyhow::{anyhow, Result};
 
 use std::env;
 
 use count_7::count_lines_in_path;
 
-fn main() -> anyhow::Result<()> {
+fn main() -> Result<()> {
     let args: Vec<_> = env::args().skip(1).collect();
     if args.is_empty() {
         return Err(anyhow!("Usage: count <FILE>..."));

@@ -1,7 +1,7 @@
-use std::io;
+use std::io::stdout;
 
 use hello_3::print;
 
 fn main() {
-    print(io::stdout()).unwrap();
+    print(stdout()).unwrap();
 }

@@ -1,11 +1,13 @@
-use std::io::{self, BufRead};
+use anyhow::Result;
+
+use std::io::BufRead;
 
 /// Counts lines in `input`.
 ///
 /// # Errors
 ///
 /// Returns any error from [`BufRead::lines`].
-pub fn count_lines(input: impl BufRead) -> io::Result<usize> {
+pub fn count_lines(input: impl BufRead) -> Result<usize> {
     let mut count = 0;
     for line_res in input.lines() {
         line_res?;
@@ -16,7 +18,7 @@ pub fn count_lines(input: impl BufRead) -> io::Result<usize> {
 
 #[cfg(test)]
 mod tests {
-    use std::io::{self, BufReader, Cursor, ErrorKind, Read};
+    use std::io::{self, BufReader, Cursor, Error, ErrorKind, Read};
 
     use super::*;
 
@@ -31,7 +33,7 @@ mod tests {
 
     impl Read for ErrorReader {
         fn read(&mut self, _buf: &mut [u8]) -> io::Result<usize> {
-            Err(io::Error::new(ErrorKind::Other, "oh no"))
+            Err(Error::new(ErrorKind::Other, "oh no"))
         }
     }
 

@@ -1,9 +1,11 @@
+use anyhow::Result;
+
 use std::env;
 
-use memo::{Memo, Memos, Status};
 use memo_3 as memo;
+use memo::{Memo, Memos, Status};
 
-fn main() -> anyhow::Result<()> {
+fn main() -> Result<()> {
     let mut memos = Memos::open("memos.json")?;
     let args: Vec<_> = env::args().skip(1).collect();
     if args.is_empty() {

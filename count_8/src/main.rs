@@ -1,10 +1,10 @@
-use anyhow::anyhow;
+use anyhow::{anyhow, Result};
 
 use std::env;
 
 use count_8::count_in_path;
 
-fn main() -> anyhow::Result<()> {
+fn main() -> Result<()> {
     let mut word_mode = false;
     let args: Vec<_> = env::args().skip(1).collect();
     if args.is_empty() {

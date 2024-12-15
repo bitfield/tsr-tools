@@ -14,4 +14,6 @@ authors = ["Russ Tation <russ@example.com>"]
 
 [dependencies]
 anyhow = "1.0.89"
+
+[dev-dependencies]
 tempfile = "3.13.0"

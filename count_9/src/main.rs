@@ -1,3 +1,4 @@
+use anyhow::Result;
 use clap::Parser;
 
 use count_9::count_in_path;
@@ -14,7 +15,7 @@ struct Args {
     files: Vec<String>,
 }
 
-fn main() -> anyhow::Result<()> {
+fn main() -> Result<()> {
     let args = Args::parse();
     for path in args.files {
         let count = count_in_path(&path)?;

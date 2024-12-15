@@ -1,11 +1,11 @@
-use std::io::{self, Write};
+use std::io::{Result, Write};
 
 /// Writes “Hello, world!” to `w`.
 ///
 /// # Errors
 ///
 /// Returns any errors from [`writeln!`].
-pub fn print(mut w: impl Write) -> io::Result<()> {
+pub fn print(mut w: impl Write) -> Result<()> {
     writeln!(w, "Hello, world!")
 }
 

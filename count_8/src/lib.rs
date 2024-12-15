@@ -1,8 +1,8 @@
-use anyhow::Context;
+use anyhow::{Context, Result};
 
 use std::{
     fs::File,
-    io::{self, BufRead, BufReader},
+    io::{BufRead, BufReader},
 };
 
 #[derive(Default)]
@@ -16,7 +16,7 @@ pub struct Count {
 /// # Errors
 ///
 /// Returns any error from [`BufReader::read_line`].
-pub fn count(mut input: impl BufRead) -> io::Result<Count> {
+pub fn count(mut input: impl BufRead) -> Result<Count> {
     let mut count = Count::default();
     let mut line = String::new();
     loop {
@@ -36,7 +36,7 @@ pub fn count(mut input: impl BufRead) -> io::Result<Count> {
 /// # Errors
 ///
 /// Returns any error from [`File::open`] or [`count`].
-pub fn count_in_path(path: &String) -> anyhow::Result<Count> {
+pub fn count_in_path(path: &String) -> Result<Count> {
     let file = File::open(path).with_context(|| path.clone())?;
     let file = BufReader::new(file);
     count(file).with_context(|| path.clone())
@@ -44,7 +44,7 @@ pub fn count_in_path(path: &String) -> anyhow::Result<Count> {
 
 #[cfg(test)]
 mod tests {
-    use std::io::{self, BufReader, Cursor, ErrorKind, Read};
+    use std::io::{self, BufReader, Cursor, Error, ErrorKind, Read};
 
     use super::*;
 
@@ -60,7 +60,7 @@ mod tests {
 
     impl Read for ErrorReader {
         fn read(&mut self, _buf: &mut [u8]) -> io::Result<usize> {
-            Err(io::Error::new(ErrorKind::Other, "oh no"))
+            Err(Error::new(ErrorKind::Other, "oh no"))
         }
     }
 

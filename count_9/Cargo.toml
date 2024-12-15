@@ -7,6 +7,8 @@ license = "MIT OR Apache-2.0"
 
 [dependencies]
 anyhow = "1.0.89"
-assert_cmd = "2.0.16"
 clap = { version = "4.5.17", features = ["derive"] }
+
+[dev-dependencies]
+assert_cmd = "2.0.16"
 predicates = "3.1.2"

@@ -1,7 +1,9 @@
+use anyhow::Result;
+
 use std::fs::File;
 use std::io::Write;
 
-fn main() -> anyhow::Result<()> {
+fn main() -> Result<()> {
     let mut logbook = File::options()
         .create(true)
         .append(true)

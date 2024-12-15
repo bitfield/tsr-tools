@@ -5,8 +5,9 @@ edition = "2021"
 authors = ["John Arundel <john@bitfieldconsulting.com>"]
 license = "MIT OR Apache-2.0"
 
-
 [dependencies]
 anyhow = "1.0.86"
+
+[dev-dependencies]
 assert_cmd = "2.0.16"
 predicates = "3.1.2"

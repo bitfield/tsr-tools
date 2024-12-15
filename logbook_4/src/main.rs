@@ -1,8 +1,10 @@
+use anyhow::Result;
+
 use std::env;
 
 use logbook_4 as logbook;
 
-fn main() -> anyhow::Result<()> {
+fn main() -> Result<()> {
     let args: Vec<_> = env::args().skip(1).collect();
     if args.is_empty() {
         if let Some(text) = logbook::read("logbook.txt")? {

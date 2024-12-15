@@ -1,7 +1,8 @@
+use anyhow::Result;
 use clap::Parser;
 
-use memo::{Memo, Memos, Status};
 use memo_5 as memo;
+use memo::{Memo, Memos, Status};
 
 #[derive(Parser)]
 /// Stores and manages simple reminders.
@@ -16,7 +17,7 @@ struct Args {
     text: Vec<String>,
 }
 
-fn main() -> anyhow::Result<()> {
+fn main() -> Result<()> {
     let args = Args::parse();
     let mut memos = Memos::open("memos.json")?;
     let text = args.text.join(" ");

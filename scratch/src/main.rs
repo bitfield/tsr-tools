@@ -1,46 +1,15 @@
-use clap::Parser;
+use anyhow::Result;
 
-use memo::{Memo, Memos, Status};
-use scratch as memo;
+use std::env;
 
-#[derive(Parser)]
-/// Stores and manages simple reminders.
-struct Args {
-    /// Marks all matching memos as done
-    #[arg(short, long)]
-    done: bool,
-    /// Deletes all memos with status “done”
-    #[arg(short, long)]
-    purge: bool,
-    /// Text of the memo to store or mark as done
-    text: Vec<String>,
-}
+use scratch as weather;
+use weather::get_weather;
 
-fn main() -> anyhow::Result<()> {
-    let args = Args::parse();
-    let mut memos = Memos::open("memos.json")?;
-    let text = args.text.join(" ");
-    if args.purge {
-        memos.purge_done();
-        memos.sync()?;
-    }
-    if args.done {
-        for m in memos.find_all(&text) {
-            m.status = Status::Done;
-            println!("Marked \"{}\" as done.", m.text);
-        }
-        memos.sync()?;
-    } else if args.text.is_empty() {
-        for memo in &memos.inner {
-            println!("{memo}");
-        }
-    } else {
-        memos.inner.push(Memo {
-            text: text.clone(),
-            status: Status::Pending,
-        });
-        println!("Added \"{}\" as a new memo.", &text);
-        memos.sync()?;
-    }
+fn main() -> Result<()> {
+    let args: Vec<_> = env::args().skip(1).collect();
+    let location = args.join(" ");
+    let api_key = env::var("WEATHERSTACK_API_KEY")?;
+    let weather = get_weather(&location, &api_key)?;
+    println!("{weather}");
     Ok(())
 }

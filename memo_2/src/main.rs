@@ -1,9 +1,11 @@
+use anyhow::Result;
+
 use std::env;
 
-use memo::Memos;
 use memo_2 as memo;
+use memo::Memos;
 
-fn main() -> anyhow::Result<()> {
+fn main() -> Result<()> {
     let mut memos = Memos::open("memos.txt")?;
     let args: Vec<_> = env::args().skip(1).collect();
     if args.is_empty() {

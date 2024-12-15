@@ -1,8 +1,8 @@
-use anyhow::Context;
+use anyhow::{Context, Result};
 
 use std::{
     fs::File,
-    io::{self, BufRead, BufReader},
+    io::{BufRead, BufReader},
 };
 
 /// Counts lines in `input`.
@@ -10,7 +10,7 @@ use std::{
 /// # Errors
 ///
 /// Returns any error from [`BufRead::lines`].
-pub fn count_lines(input: impl BufRead) -> io::Result<usize> {
+pub fn count_lines(input: impl BufRead) -> Result<usize> {
     let mut count = 0;
     for line_res in input.lines() {
         line_res?;
@@ -24,7 +24,7 @@ pub fn count_lines(input: impl BufRead) -> io::Result<usize> {
 /// # Errors
 ///
 /// Returns any error from [`File::open`] or [`count_lines`].
-pub fn count_lines_in_path(path: &String) -> anyhow::Result<usize> {
+pub fn count_lines_in_path(path: &String) -> Result<usize> {
     let file = File::open(path).with_context(|| path.clone())?;
     let file = BufReader::new(file);
     count_lines(file).with_context(|| path.clone())
@@ -32,7 +32,7 @@ pub fn count_lines_in_path(path: &String) -> anyhow::Result<usize> {
 
 #[cfg(test)]
 mod tests {
-    use std::io::{self, Cursor, ErrorKind, Read};
+    use std::io::{self, Cursor, Error, ErrorKind, Read};
 
     use super::*;
 
@@ -47,7 +47,7 @@ mod tests {
 
     impl Read for ErrorReader {
         fn read(&mut self, _buf: &mut [u8]) -> io::Result<usize> {
-            Err(io::Error::new(ErrorKind::Other, "oh no"))
+            Err(Error::new(ErrorKind::Other, "oh no"))
         }
     }
 
