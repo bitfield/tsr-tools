@@ -2,8 +2,8 @@ use anyhow::Result;
 
 use std::env;
 
-use memo_1 as memo;
 use memo::{open, sync};
+use memo_1 as memo;
 
 fn main() -> Result<()> {
     let mut memos = open("memos.txt")?;

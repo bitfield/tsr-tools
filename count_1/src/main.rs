@@ -1,4 +1,4 @@
-use std::io::{BufRead, stdin};
+use std::io::{stdin, BufRead};
 
 fn main() {
     let input = stdin().lock();

@@ -1,8 +1,8 @@
 use anyhow::Result;
 use clap::Parser;
 
-use memo_5 as memo;
 use memo::{Memo, Memos, Status};
+use memo_5 as memo;
 
 #[derive(Parser)]
 /// Stores and manages simple reminders.

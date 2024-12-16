@@ -1256,6 +1256,7 @@ name = "scratch"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "clap",
  "reqwest",
  "serde",
  "serde_json",

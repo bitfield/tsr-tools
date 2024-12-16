@@ -12,15 +12,15 @@ fn request(location: &str, api_key: &str) -> RequestBuilder {
 }
 
 fn deserialize(json: &str) -> Result<Weather> {
-    let data: Value = serde_json::from_str(json)?;
-    let temperature = data
+    let val: Value = serde_json::from_str(json)?;
+    let temperature = val
         .pointer("/current/temperature")
         .and_then(Value::as_f64)
-        .context("bad response")?;
-    let summary = data
+        .with_context(|| format!("bad response: {val}"))?;
+    let summary = val
         .pointer("/current/weather_descriptions/0")
         .and_then(Value::as_str)
-        .context("bad response")?
+        .with_context(|| format!("bad response: {val}"))?
         .to_string();
     Ok(Weather {
         temperature,
@@ -42,7 +42,7 @@ pub struct Weather {
 
 impl Display for Weather {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{self:?}")
+        write!(f, "{} {:.1}ºC", self.summary, self.temperature)
     }
 }
 
@@ -65,7 +65,7 @@ mod tests {
             Some(Domain("api.weatherstack.com")),
             "wrong host"
         );
-        assert_eq!(url.path(), "/current", "wrong host");
+        assert_eq!(url.path(), "/current", "wrong po");
         let params: Vec<(_, _)> = url.query_pairs().collect();
         assert_eq!(
             params,

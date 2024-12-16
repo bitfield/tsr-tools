@@ -1,7 +1,9 @@
+use anyhow::Result;
+
 use std::{
     fmt::Display,
     fs::{self, File},
-    io::{self, BufReader, BufWriter},
+    io::{BufReader, BufWriter},
     path::{Path, PathBuf},
 };
 
@@ -22,7 +24,7 @@ impl Memos {
     ///
     /// Returns any error from [`fs::exists`], [`File::open`], or
     /// [`serde_json::from_reader`].
-    pub fn open(path: impl AsRef<Path>) -> io::Result<Self> {
+    pub fn open(path: impl AsRef<Path>) -> Result<Self> {
         let mut memos = Self {
             path: PathBuf::from(path.as_ref()),
             inner: Vec::new(),
@@ -39,7 +41,7 @@ impl Memos {
     /// # Errors
     ///
     /// Returns any error from [`File::create`] or [`serde_json::to_writer`].
-    pub fn sync(&self) -> io::Result<()> {
+    pub fn sync(&self) -> Result<()> {
         let file = File::create(&self.path)?;
         serde_json::to_writer(BufWriter::new(file), &self.inner)?;
         Ok(())

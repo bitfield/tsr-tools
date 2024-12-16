@@ -2,8 +2,8 @@ use anyhow::Result;
 
 use std::env;
 
-use memo_3 as memo;
 use memo::{Memo, Memos, Status};
+use memo_3 as memo;
 
 fn main() -> Result<()> {
     let mut memos = Memos::open("memos.json")?;

@@ -1,4 +1,4 @@
-use anyhow::{anyhow, Result};
+use anyhow::{bail, Result};
 
 use std::env;
 
@@ -8,7 +8,7 @@ fn main() -> Result<()> {
     let mut word_mode = false;
     let args: Vec<_> = env::args().skip(1).collect();
     if args.is_empty() {
-        return Err(anyhow!("Usage: count [-w] <FILE>..."));
+        bail!("Usage: count [-w] <FILE>...");
     }
     for path in args {
         if path == "-w" {

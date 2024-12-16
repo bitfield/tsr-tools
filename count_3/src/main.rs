@@ -1,5 +1,4 @@
-use std::io::stdin;
-use std::process;
+use std::{io::stdin, process};
 
 use count_3::count_lines;
 

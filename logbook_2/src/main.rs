@@ -1,4 +1,4 @@
-use anyhow::{anyhow, Result};
+use anyhow::{bail, Result};
 
 use std::io::Write;
 use std::{env, fs::File};
@@ -6,7 +6,7 @@ use std::{env, fs::File};
 fn main() -> Result<()> {
     let args: Vec<_> = env::args().skip(1).collect();
     if args.is_empty() {
-        return Err(anyhow!("Usage: logbook <MESSAGE>"));
+        bail!("Usage: logbook <MESSAGE>");
     }
     let mut logbook = File::options()
         .create(true)
