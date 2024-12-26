@@ -1,5 +1,7 @@
 use anyhow::{Context, Result};
 
+use std::fmt::Display;
+
 use reqwest::blocking::RequestBuilder;
 use serde_json::Value;
 
@@ -48,36 +50,21 @@ fn deserialize(json: &str) -> Result<Weather> {
         .with_context(|| format!("bad response: {val}"))?
         .to_string();
     Ok(Weather {
-        temperature: Temperature::from_celsius(temperature),
+        temperature,
         summary,
     })
 }
 
 #[derive(Debug, PartialEq)]
-pub struct Temperature(f64);
-
-impl Temperature {
-    #[must_use]
-    pub fn from_celsius(val: f64) -> Self {
-        Self(val)
-    }
-    
-    #[must_use]
-    pub fn as_celsius(&self) -> f64 {
-        self.0
-    }
-    
-    #[must_use]
-    pub fn as_fahrenheit(&self) -> f64 {
-        self.0 * 1.8 + 32.0
-    }
+pub struct Weather {
+    temperature: f64,
+    summary: String,
 }
 
-
-#[derive(Debug, PartialEq)]
-pub struct Weather {
-    pub temperature: Temperature,
-    pub summary: String,
+impl Display for Weather {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{} {:.1}ºC", self.summary, self.temperature)
+    }
 }
 
 #[cfg(test)]
@@ -114,7 +101,7 @@ mod tests {
         assert_eq!(
             weather,
             Weather {
-                temperature: Temperature::from_celsius(11.2),
+                temperature: 11.2,
                 summary: "Sunny".into(),
             }
         );
@@ -141,18 +128,10 @@ mod tests {
         assert_eq!(
             weather.unwrap(),
             Weather {
-                temperature: Temperature(11.2),
+                temperature: 11.2,
                 summary: "Sunny".into(),
             },
             "wrong weather"
         );
-    }
-    
-    #[test]
-    #[allow(clippy::float_cmp)]
-    fn temperature_can_be_expressed_as_celsius_or_fahrenheit() {
-        let temp = Temperature(0.0);
-        assert_eq!(temp.as_celsius(), 0.0);
-        assert_eq!(temp.as_fahrenheit(), 32.0);
     }
 }

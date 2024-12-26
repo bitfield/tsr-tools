@@ -1,0 +1,39 @@
+{
+  "request": {
+    "type": "City",
+    "query": "London, United Kingdom",
+    "language": "en",
+    "unit": "m"
+  },
+  "location": {
+    "name": "London",
+    "country": "United Kingdom",
+    "region": "City of London, Greater London",
+    "lat": "51.517",
+    "lon": "-0.106",
+    "timezone_id": "Europe/London",
+    "localtime": "2024-11-29 15:10",
+    "localtime_epoch": 1732893000,
+    "utc_offset": "0.0"
+  },
+  "current": {
+    "observation_time": "03:10 PM",
+    "temperature": 11.2,
+    "weather_code": 113,
+    "weather_icons": [
+      "https://cdn.worldweatheronline.com/images/wsymbols01_png_64/wsymbol_0001_sunny.png"
+    ],
+    "weather_descriptions": ["Sunny"],
+    "wind_speed": 16,
+    "wind_degree": 157,
+    "wind_dir": "SSE",
+    "pressure": 1024,
+    "precip": 0,
+    "humidity": 54,
+    "cloudcover": 0,
+    "feelslike": 10,
+    "uv_index": 0,
+    "visibility": 10,
+    "is_day": "yes"
+  }
+}

@@ -1,7 +1,7 @@
 use anyhow::Result;
 use clap::Parser;
 
-use scratch as weather;
+use weather_4 as weather;
 use weather::Weatherstack;
 
 #[derive(Parser)]
