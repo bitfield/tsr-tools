@@ -20,6 +20,6 @@ fn main() -> Result<()> {
     let location = args.location.join(" ");
     let ws = Weatherstack::new(&args.api_key);
     let weather = ws.get_weather(&location)?;
-    println!("{weather:?}");
+    println!("{weather}");
     Ok(())
 }
