@@ -1,8 +1,8 @@
 use anyhow::Result;
 use clap::Parser;
 
-use weather_4 as weather;
 use weather::Weatherstack;
+use weather_4 as weather;
 
 #[derive(Parser)]
 /// Shows the current weather for a given location.
@@ -24,7 +24,8 @@ fn main() -> Result<()> {
     let ws = Weatherstack::new(&args.api_key);
     let weather = ws.get_weather(&location)?;
     println!(
-        "{} {}", weather.summary,
+        "{} {}",
+        weather.summary,
         if args.fahrenheit {
             format!("{:.1}ºF", weather.temperature.as_fahrenheit())
         } else {

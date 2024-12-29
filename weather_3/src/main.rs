@@ -1,8 +1,8 @@
 use anyhow::Result;
 use clap::Parser;
 
-use weather_3 as weather;
 use weather::Weatherstack;
+use weather_3 as weather;
 
 #[derive(Parser)]
 /// Shows the current weather for a given location.

@@ -18,9 +18,9 @@ impl Weatherstack {
     }
 
     /// Fetches weather data from the Weatherstack API for the given location.
-    /// 
+    ///
     /// # Errors
-    /// 
+    ///
     /// Returns any errors making the request, from the server response, or from
     /// deserializing the JSON data.
     pub fn get_weather(&self, location: &str) -> Result<Weather> {
@@ -61,18 +61,17 @@ impl Temperature {
     pub fn from_celsius(val: f64) -> Self {
         Self(val)
     }
-    
+
     #[must_use]
     pub fn as_celsius(&self) -> f64 {
         self.0
     }
-    
+
     #[must_use]
     pub fn as_fahrenheit(&self) -> f64 {
         self.0 * 1.8 + 32.0
     }
 }
-
 
 #[derive(Debug, PartialEq)]
 pub struct Weather {
@@ -147,7 +146,7 @@ mod tests {
             "wrong weather"
         );
     }
-    
+
     #[test]
     #[allow(clippy::float_cmp)]
     fn temperature_can_be_expressed_as_celsius_or_fahrenheit() {

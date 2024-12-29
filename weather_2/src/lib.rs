@@ -29,9 +29,9 @@ fn deserialize(json: &str) -> Result<Weather> {
 }
 
 /// Fetches weather data from the Weatherstack API for the given location.
-/// 
+///
 /// # Errors
-/// 
+///
 /// Returns any errors making the request, from the server response, or from
 /// deserializing the JSON data.
 pub fn get_weather(location: &str, api_key: &str) -> Result<Weather> {
