@@ -43,8 +43,6 @@ impl Memos {
 
 #[cfg(test)]
 mod tests {
-    use tempfile::tempdir;
-
     use super::*;
 
     #[test]
@@ -58,6 +56,8 @@ mod tests {
         let memos = Memos::open("bogus.txt").unwrap();
         assert!(memos.inner.is_empty(), "vec not empty");
     }
+
+    use tempfile::tempdir;
 
     #[test]
     fn sync_writes_vec_to_file() {
