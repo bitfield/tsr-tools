@@ -150,8 +150,8 @@ mod tests {
     #[test]
     #[allow(clippy::float_cmp)]
     fn temperature_can_be_expressed_as_celsius_or_fahrenheit() {
-        let temp = Temperature(0.0);
-        assert_eq!(temp.as_celsius(), 0.0);
-        assert_eq!(temp.as_fahrenheit(), 32.0);
+        let temp = Temperature(10.0);
+        assert_eq!(temp.as_celsius(), 10.0);
+        assert_eq!(temp.as_fahrenheit(), 50.0);
     }
 }
