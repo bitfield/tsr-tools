@@ -1,7 +1,6 @@
 use anyhow::{bail, Result};
 
-use std::io::Write;
-use std::{env, fs::File};
+use std::{env, fs::File, io::Write};
 
 fn main() -> Result<()> {
     let args: Vec<_> = env::args().skip(1).collect();

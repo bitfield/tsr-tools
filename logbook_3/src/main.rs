@@ -1,8 +1,10 @@
 use anyhow::Result;
 
-use std::env;
-use std::fs::{self, File};
-use std::io::Write;
+use std::{
+    env,
+    fs::{self, File},
+    io::Write,
+};
 
 fn main() -> Result<()> {
     let args: Vec<_> = env::args().skip(1).collect();

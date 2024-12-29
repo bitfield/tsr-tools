@@ -1,7 +1,6 @@
 use anyhow::Result;
 
-use std::fs::File;
-use std::io::Write;
+use std::{fs::File, io::Write};
 
 fn main() -> Result<()> {
     let mut logbook = File::options()
