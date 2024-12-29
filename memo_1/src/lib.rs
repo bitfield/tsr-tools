@@ -1,6 +1,6 @@
 use std::{
     fs::{self, File},
-    io::{self, BufRead, BufReader},
+    io::{BufRead, BufReader, Result},
     path::Path,
 };
 
@@ -11,7 +11,7 @@ use std::{
 /// # Errors
 ///
 /// Returns any error from [`fs::exists`], [`File::open`], or [`BufRead::lines`].
-pub fn open(path: impl AsRef<Path>) -> io::Result<Vec<String>> {
+pub fn open(path: impl AsRef<Path>) -> Result<Vec<String>> {
     if fs::exists(&path)? {
         let file = BufReader::new(File::open(&path)?);
         file.lines().collect()
@@ -25,7 +25,7 @@ pub fn open(path: impl AsRef<Path>) -> io::Result<Vec<String>> {
 /// # Errors
 ///
 /// Returns any error from [`fs::write`].
-pub fn sync(memos: &[String], path: impl AsRef<Path>) -> io::Result<()> {
+pub fn sync(memos: &[String], path: impl AsRef<Path>) -> Result<()> {
     fs::write(&path, memos.join("\n"))
 }
 
