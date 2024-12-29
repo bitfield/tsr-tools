@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, PartialEq)]
 pub struct Memos {
-    pub path: PathBuf,
+    path: PathBuf,
     pub inner: Vec<Memo>,
 }
 
