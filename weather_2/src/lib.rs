@@ -92,7 +92,8 @@ mod tests {
             Weather {
                 temperature: 11.2,
                 summary: "Sunny".into(),
-            }
+            },
+            "wrong weather"
         );
     }
 }

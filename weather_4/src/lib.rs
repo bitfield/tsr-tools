@@ -94,7 +94,7 @@ mod tests {
         assert_eq!(req.method(), "GET", "wrong method");
         let url = req.url();
         assert_eq!(url.host(), Some(Domain("example.com")), "wrong host");
-        assert_eq!(url.path(), "/current", "wrong po");
+        assert_eq!(url.path(), "/current", "wrong path");
         let params: Vec<(_, _)> = url.query_pairs().collect();
         assert_eq!(
             params,
@@ -115,7 +115,8 @@ mod tests {
             Weather {
                 temperature: Temperature::from_celsius(11.2),
                 summary: "Sunny".into(),
-            }
+            },
+            "wrong weather"
         );
     }
 
@@ -127,6 +128,7 @@ mod tests {
         let server = MockServer::start();
         let mock = server.mock(|when, then| {
             when.method(Method::GET)
+                .path("/current")
                 .query_param("query", "London,UK")
                 .query_param("access_key", "dummy api key");
             then.status(StatusCode::OK.into())
@@ -134,7 +136,7 @@ mod tests {
                 .body_from_file("tests/data/ws.json");
         });
         let mut ws = Weatherstack::new("dummy api key");
-        ws.base_url = server.base_url();
+        ws.base_url = server.base_url() + "/current";
         let weather = ws.get_weather("London,UK");
         mock.assert();
         assert_eq!(
@@ -150,8 +152,8 @@ mod tests {
     #[test]
     #[allow(clippy::float_cmp)]
     fn temperature_can_be_expressed_as_celsius_or_fahrenheit() {
-        let temp = Temperature(10.0);
-        assert_eq!(temp.as_celsius(), 10.0);
-        assert_eq!(temp.as_fahrenheit(), 50.0);
+        let temp = Temperature::from_celsius(10.0);
+        assert_eq!(temp.as_celsius(), 10.0, "wrong celsius");
+        assert_eq!(temp.as_fahrenheit(), 50.0, "wrong fahrenheit");
     }
 }

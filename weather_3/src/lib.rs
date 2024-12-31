@@ -82,7 +82,7 @@ mod tests {
         assert_eq!(req.method(), "GET", "wrong method");
         let url = req.url();
         assert_eq!(url.host(), Some(Domain("example.com")), "wrong host");
-        assert_eq!(url.path(), "/current", "wrong po");
+        assert_eq!(url.path(), "/current", "wrong path");
         let params: Vec<(_, _)> = url.query_pairs().collect();
         assert_eq!(
             params,
@@ -103,7 +103,8 @@ mod tests {
             Weather {
                 temperature: 11.2,
                 summary: "Sunny".into(),
-            }
+            },
+            "wrong weather"
         );
     }
 
@@ -115,6 +116,7 @@ mod tests {
         let server = MockServer::start();
         let mock = server.mock(|when, then| {
             when.method(Method::GET)
+                .path("/current")
                 .query_param("query", "London,UK")
                 .query_param("access_key", "dummy api key");
             then.status(StatusCode::OK.into())
@@ -122,7 +124,7 @@ mod tests {
                 .body_from_file("tests/data/ws.json");
         });
         let mut ws = Weatherstack::new("dummy api key");
-        ws.base_url = server.base_url();
+        ws.base_url = server.base_url() + "/current";
         let weather = ws.get_weather("London,UK");
         mock.assert();
         assert_eq!(
