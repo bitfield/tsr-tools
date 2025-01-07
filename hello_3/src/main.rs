@@ -1,7 +1,7 @@
-use std::io::stdout;
+use hello_3 as hello;
 
-use hello_3::print;
+use hello::world;
 
 fn main() {
-    print(stdout()).unwrap();
+    println!("{}", world());
 }

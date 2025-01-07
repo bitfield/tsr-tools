@@ -6,4 +6,6 @@ authors = ["John Arundel <john@bitfieldconsulting.com>"]
 license = "MIT OR Apache-2.0"
 
 [dependencies]
+anyhow = "1.0.95"
+clap = { version = "4.5.23", features = ["derive"] }
 
