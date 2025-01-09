@@ -1,6 +1,9 @@
 use anyhow::Result;
 
-use std::{process::Command, time::{Duration, Instant}};
+use std::{
+    process::Command,
+    time::{Duration, Instant},
+};
 
 pub struct Report {
     pub stdout: String,
@@ -9,9 +12,9 @@ pub struct Report {
 }
 
 /// Runs `program` with `args`, returning output and elapsed time.
-/// 
+///
 /// # Errors
-/// 
+///
 /// Returns any errors running the command.
 pub fn time(program: &str, args: &[String]) -> Result<Report> {
     let mut cmd = Command::new(program);
@@ -29,7 +32,7 @@ pub fn time(program: &str, args: &[String]) -> Result<Report> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     #[test]
     fn time_times_echo_cmd() {
         let rep = time("echo", &["hey".into()]).unwrap();
