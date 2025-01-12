@@ -1,28 +1,18 @@
-use anyhow::Result;
-use clap::Parser;
+use std::time::Instant;
 
-use scratch as timer;
-
-#[derive(Parser)]
-/// Runs a given command and reports elapsed time.
-struct Args {
-    #[arg(required = true)]
-    /// Name or path of the program to run
-    program: String,
-    /// Arguments to the program
-    args: Vec<String>,
+fn main() {
+    let start = Instant::now();
+    for _ in 1..=100 {
+        let _ = 2 + 2;
+    }
+    println!("That took {:?}", start.elapsed());
 }
 
-fn main() -> Result<()> {
-    let args = Args::parse();
-    let report = timer::time(&args.program, &args.args)?;
-    print!("{}", report.stdout);
-    print!("{}", report.stderr);
-    println!(
-        "`{} {}`: {:.1?}",
-        args.program,
-        args.args.join(" "),
-        report.elapsed
-    );
-    Ok(())
-}
+// fn main() -> Result<()> {
+//     let mut cmd = Command::new("echo");
+//     cmd.args(["hello", "world"]);
+//     let output = cmd.output()?;
+//     let stdout = String::from_utf8(output.stdout)?;
+//     println!("output: {stdout}");
+//     Ok(())
+// }
