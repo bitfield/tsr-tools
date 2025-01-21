@@ -16,10 +16,11 @@ fn main() -> Result<()> {
             continue;
         }
         let count = count_in_path(&path)?;
-        println!(
-            "{path}: {}",
-            if word_mode { count.words } else { count.lines }
-        );
+        if word_mode {
+            println!("{path}: {} words", count.words);
+        } else {
+            println!("{path}: {} lines", count.lines);
+        };
     }
     Ok(())
 }

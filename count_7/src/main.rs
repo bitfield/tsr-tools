@@ -10,7 +10,7 @@ fn main() -> Result<()> {
         bail!("Usage: count <FILE>...");
     }
     for path in args {
-        println!("{path}: {}", count_lines_in_path(&path)?);
+        println!("{path}: {} lines", count_lines_in_path(&path)?);
     }
     Ok(())
 }

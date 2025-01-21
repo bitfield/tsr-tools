@@ -20,5 +20,5 @@ fn main() {
             process::exit(1);
         })
         .unwrap();
-    println!("{lines}");
+    println!("{lines} lines");
 }

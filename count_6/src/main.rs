@@ -9,7 +9,7 @@ fn main() -> Result<()> {
         let file = File::open(&path).with_context(|| path.clone())?;
         let file = BufReader::new(file);
         let lines = count_lines(file).with_context(|| path.clone())?;
-        println!("{path}: {lines}");
+        println!("{path}: {lines} lines");
     }
     Ok(())
 }

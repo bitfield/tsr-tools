@@ -19,11 +19,7 @@ pub struct Count {
 pub fn count(mut input: impl BufRead) -> Result<Count> {
     let mut count = Count::default();
     let mut line = String::new();
-    loop {
-        let bytes_read = input.read_line(&mut line)?;
-        if bytes_read == 0 {
-            break;
-        }
+    while input.read_line(&mut line)? > 0 {
         count.lines += 1;
         count.words += line.split_whitespace().count();
         line.clear();

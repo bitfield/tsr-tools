@@ -9,8 +9,8 @@ use std::io::BufRead;
 /// Returns any error from [`BufRead::lines`].
 pub fn count_lines(input: impl BufRead) -> Result<usize> {
     let mut count = 0;
-    for line_res in input.lines() {
-        line_res?;
+    for line in input.lines() {
+        line?;
         count += 1;
     }
     Ok(count)

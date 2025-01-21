@@ -19,10 +19,11 @@ fn main() -> Result<()> {
     let args = Args::parse();
     for path in args.files {
         let count = count_in_path(&path)?;
-        println!(
-            "{path}: {}",
-            if args.words { count.words } else { count.lines }
-        );
+        if args.words {
+            println!("{path}: {} words", count.words);
+        } else {
+            println!("{path}: {} lines", count.lines);
+        };
     }
     Ok(())
 }
