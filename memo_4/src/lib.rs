@@ -42,7 +42,8 @@ impl Memos {
         };
         if fs::exists(&path)? {
             let file = File::open(path)?;
-            memos.inner = serde_json::from_reader(BufReader::new(file))?;
+            memos.inner =
+                serde_json::from_reader(BufReader::new(file))?;
         }
         Ok(memos)
     }
@@ -66,7 +67,10 @@ pub struct Memo {
 }
 
 impl Display for Memo {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter<'_>,
+    ) -> std::fmt::Result {
         write!(f, "{} {}", self.status, self.text)
     }
 }
@@ -78,7 +82,10 @@ pub enum Status {
 }
 
 impl Display for Status {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter<'_>,
+    ) -> std::fmt::Result {
         write!(
             f,
             "{}",

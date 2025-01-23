@@ -34,7 +34,10 @@ fn deserialize(json: &str) -> Result<Weather> {
 ///
 /// Returns any errors making the request, from the server response, or from
 /// deserializing the JSON data.
-pub fn get_weather(location: &str, api_key: &str) -> Result<Weather> {
+pub fn get_weather(
+    location: &str,
+    api_key: &str,
+) -> Result<Weather> {
     let resp = request(location, api_key).send()?;
     let weather = deserialize(&resp.text()?)?;
     Ok(weather)
@@ -47,7 +50,10 @@ pub struct Weather {
 }
 
 impl Display for Weather {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter<'_>,
+    ) -> std::fmt::Result {
         write!(f, "{} {:.1}ºC", self.summary, self.temperature)
     }
 }
@@ -85,7 +91,8 @@ mod tests {
 
     #[test]
     fn deserialize_extracts_correct_weather_from_json() {
-        let json = fs::read_to_string("tests/data/ws.json").unwrap();
+        let json =
+            fs::read_to_string("tests/data/ws.json").unwrap();
         let weather = deserialize(&json).unwrap();
         assert_eq!(
             weather,

@@ -7,7 +7,12 @@ use weather_2 as weather;
 #[derive(Parser)]
 /// Shows the current weather for a given location.
 struct Args {
-    #[arg(short, long, env = "WEATHERSTACK_API_KEY", required = true)]
+    #[arg(
+        short,
+        long,
+        env = "WEATHERSTACK_API_KEY",
+        required = true
+    )]
     /// Weatherstack API key
     api_key: String,
     #[arg(required = true)]

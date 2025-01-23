@@ -3,11 +3,27 @@ use walkdir::WalkDir;
 
 use std::{
     path::{Path, PathBuf},
-    process::Command,
+    process::{Command, Output},
 };
 
+/// Runs `cargo clean` on all Rust projects in `path`.
+///
+/// # Errors
+///
+/// Returns any errors searching `path`, or when running Cargo.
+///
+/// # Panics
+///
+/// Panics if the target manifest file does not have a parent directory.
+/// This should never happen because targets are always `Cargo.toml` files.
 pub fn slim(path: impl AsRef<Path>) -> Result<String> {
-    Ok(String::new())
+    let mut output = String::new();
+    for target in manifests(path)? {
+        let mut cmd = cargo_clean_cmd(&target);
+        let cmd_output = cmd.output()?;
+        output.push_str(&summary(target, &cmd_output));
+    }
+    Ok(output)
 }
 
 /// Finds all `Cargo.toml` files in the tree rooted at `path`.
@@ -36,9 +52,17 @@ fn cargo_clean_cmd(path: impl AsRef<Path>) -> Command {
     cmd
 }
 
+fn summary(target: impl AsRef<Path>, output: &Output) -> String {
+    format!(
+        "{}: {}",
+        target.as_ref().parent().unwrap().display(),
+        String::from_utf8_lossy(&output.stderr).trim_start()
+    )
+}
+
 #[cfg(test)]
 mod tests {
-    use std::{path::PathBuf, process::Command};
+    use std::{path::PathBuf, process::ExitStatus};
 
     use super::*;
 
@@ -58,12 +82,34 @@ mod tests {
 
     #[test]
     fn cargo_clean_cmd_fn_returns_correct_cargo_command() {
-        let cmd = cargo_clean_cmd(PathBuf::from("code/proj_1/Cargo.toml"));
+        let cmd = cargo_clean_cmd(PathBuf::from(
+            "code/proj_1/Cargo.toml",
+        ));
         assert_eq!(cmd.get_program(), "cargo", "wrong program");
         assert_eq!(
             cmd.get_args().collect::<Vec<_>>(),
             ["clean", "--manifest-path", "code/proj_1/Cargo.toml"],
             "wrong args"
+        );
+    }
+
+    #[test]
+    fn summary_reports_target_path_and_cargo_output() {
+        let cmd_output = summary(
+            PathBuf::from("./target/Cargo.toml"),
+            &Output {
+                stdout: Vec::new(),
+                stderr: String::from(
+                    "     Removed 2 files, 1.6MiB total\n",
+                )
+                .into_bytes(),
+                status: ExitStatus::default(),
+            },
+        );
+        assert_eq!(
+            cmd_output,
+            "./target: Removed 2 files, 1.6MiB total\n",
+            "wrong formatting"
         );
     }
 }

@@ -12,7 +12,8 @@ impl Weatherstack {
     #[must_use]
     pub fn new(api_key: &str) -> Self {
         Self {
-            base_url: "https://api.weatherstack.com/current".into(),
+            base_url: "https://api.weatherstack.com/current"
+                .into(),
             api_key: api_key.to_owned(),
         }
     }
@@ -24,13 +25,19 @@ impl Weatherstack {
     /// Returns any errors making the request, from the server response, or from
     /// deserializing the JSON data.
     pub fn get_weather(&self, location: &str) -> Result<Weather> {
-        let resp = request(&self.base_url, location, &self.api_key).send()?;
+        let resp =
+            request(&self.base_url, location, &self.api_key)
+                .send()?;
         let weather = deserialize(&resp.text()?)?;
         Ok(weather)
     }
 }
 
-fn request(base_url: &str, location: &str, api_key: &str) -> RequestBuilder {
+fn request(
+    base_url: &str,
+    location: &str,
+    api_key: &str,
+) -> RequestBuilder {
     reqwest::blocking::Client::new()
         .get(base_url)
         .query(&[("query", location), ("access_key", api_key)])
@@ -89,11 +96,19 @@ mod tests {
 
     #[test]
     fn request_builds_correct_request() {
-        let req = request("https://example.com/current", "London,UK", "dummy API key");
+        let req = request(
+            "https://example.com/current",
+            "London,UK",
+            "dummy API key",
+        );
         let req = req.build().unwrap();
         assert_eq!(req.method(), "GET", "wrong method");
         let url = req.url();
-        assert_eq!(url.host(), Some(Domain("example.com")), "wrong host");
+        assert_eq!(
+            url.host(),
+            Some(Domain("example.com")),
+            "wrong host"
+        );
         assert_eq!(url.path(), "/current", "wrong path");
         let params: Vec<(_, _)> = url.query_pairs().collect();
         assert_eq!(
@@ -108,7 +123,8 @@ mod tests {
 
     #[test]
     fn deserialize_extracts_correct_weather_from_json() {
-        let json = fs::read_to_string("tests/data/ws.json").unwrap();
+        let json =
+            fs::read_to_string("tests/data/ws.json").unwrap();
         let weather = deserialize(&json).unwrap();
         assert_eq!(
             weather,

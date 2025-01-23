@@ -25,7 +25,10 @@ pub fn open(path: impl AsRef<Path>) -> Result<Vec<String>> {
 /// # Errors
 ///
 /// Returns any error from [`fs::write`].
-pub fn sync(memos: &[String], path: impl AsRef<Path>) -> Result<()> {
+pub fn sync(
+    memos: &[String],
+    path: impl AsRef<Path>,
+) -> Result<()> {
     fs::write(&path, memos.join("\n"))
 }
 

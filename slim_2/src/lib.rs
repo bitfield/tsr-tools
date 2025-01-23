@@ -37,7 +37,10 @@ impl Slimmer {
         Ok(output)
     }
 
-    fn cargo_clean_cmd(&self, target: impl AsRef<Path>) -> Command {
+    fn cargo_clean_cmd(
+        &self,
+        target: impl AsRef<Path>,
+    ) -> Command {
         let mut cmd = Command::new("cargo");
         cmd.args([
             "clean",

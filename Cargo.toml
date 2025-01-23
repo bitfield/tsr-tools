@@ -25,6 +25,6 @@ members = [
     "weather_1",
     "weather_2",
     "weather_3",
-    "weather_4", "timer_1", "slim_1", "timer_2",
+    "weather_4", "timer_1", "slim_1", "timer_2", "slim_2",
 ]
 resolver = "2"

@@ -40,7 +40,9 @@ pub fn count_in_path(path: &String) -> Result<Count> {
 
 #[cfg(test)]
 mod tests {
-    use std::io::{self, BufReader, Cursor, Error, ErrorKind, Read};
+    use std::io::{
+        self, BufReader, Cursor, Error, ErrorKind, Read,
+    };
 
     use super::*;
 

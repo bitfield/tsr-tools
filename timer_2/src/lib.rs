@@ -23,8 +23,10 @@ pub fn time(program: &str, args: &[String]) -> Result<Report> {
     let output = cmd.output()?;
     let elapsed = start.elapsed();
     Ok(Report {
-        stdout: String::from_utf8_lossy(&output.stdout).to_string(),
-        stderr: String::from_utf8_lossy(&output.stderr).to_string(),
+        stdout: String::from_utf8_lossy(&output.stdout)
+            .to_string(),
+        stderr: String::from_utf8_lossy(&output.stderr)
+            .to_string(),
         elapsed,
     })
 }

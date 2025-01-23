@@ -18,7 +18,9 @@ pub fn count_lines(input: impl BufRead) -> Result<usize> {
 
 #[cfg(test)]
 mod tests {
-    use std::io::{self, BufReader, Cursor, Error, ErrorKind, Read};
+    use std::io::{
+        self, BufReader, Cursor, Error, ErrorKind, Read,
+    };
 
     use super::*;
 

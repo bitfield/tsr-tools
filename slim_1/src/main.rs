@@ -1,8 +1,8 @@
 use anyhow::Result;
 use clap::Parser;
 
-use slim_1 as slim;
 use slim::slim;
+use slim_1 as slim;
 
 #[derive(Parser)]
 /// Runs `cargo clean` recursively to save disk space by deleting build
@@ -16,6 +16,6 @@ struct Args {
 fn main() -> Result<()> {
     let args = Args::parse();
     let output = slim(args.path)?;
-    println!("{output}");
+    print!("{output}");
     Ok(())
 }

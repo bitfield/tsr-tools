@@ -32,7 +32,8 @@ pub fn read(path: impl AsRef<Path>) -> Result<Option<String>> {
 ///
 /// Returns any error from [`open`](fs::OpenOptions::open) or [`writeln!`].
 pub fn append(path: impl AsRef<Path>, msg: &str) -> Result<()> {
-    let mut logbook = File::options().create(true).append(true).open(path)?;
+    let mut logbook =
+        File::options().create(true).append(true).open(path)?;
     writeln!(logbook, "{msg}")?;
     Ok(())
 }
@@ -45,7 +46,8 @@ mod tests {
 
     #[test]
     fn read_reads_contents_of_file_as_string() {
-        let text = read("tests/data/logbook.txt").unwrap().unwrap();
+        let text =
+            read("tests/data/logbook.txt").unwrap().unwrap();
         assert_eq!(text.trim_end(), "hello world", "wrong text");
     }
 
