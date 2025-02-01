@@ -37,10 +37,7 @@ impl Slimmer {
         Ok(output)
     }
 
-    fn cargo_clean_cmd(
-        &self,
-        target: impl AsRef<Path>,
-    ) -> Command {
+    fn cargo_clean_cmd(&self, target: impl AsRef<Path>) -> Command {
         let mut cmd = Command::new("cargo");
         cmd.args([
             "clean",
@@ -147,8 +144,7 @@ mod tests {
             },
         );
         assert_eq!(
-            cmd_output,
-            "./target: Removed 2 files, 1.6MiB total\n",
+            cmd_output, "./target: Removed 2 files, 1.6MiB total\n",
             "wrong formatting"
         );
     }

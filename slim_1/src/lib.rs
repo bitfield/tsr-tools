@@ -107,8 +107,7 @@ mod tests {
             },
         );
         assert_eq!(
-            cmd_output,
-            "./target: Removed 2 files, 1.6MiB total\n",
+            cmd_output, "./target: Removed 2 files, 1.6MiB total\n",
             "wrong formatting"
         );
     }

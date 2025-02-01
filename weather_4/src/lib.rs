@@ -12,8 +12,7 @@ impl Weatherstack {
     #[must_use]
     pub fn new(api_key: &str) -> Self {
         Self {
-            base_url: "https://api.weatherstack.com/current"
-                .into(),
+            base_url: "https://api.weatherstack.com/current".into(),
             api_key: api_key.to_owned(),
         }
     }
@@ -25,9 +24,8 @@ impl Weatherstack {
     /// Returns any errors making the request, from the server response, or from
     /// deserializing the JSON data.
     pub fn get_weather(&self, location: &str) -> Result<Weather> {
-        let resp =
-            request(&self.base_url, location, &self.api_key)
-                .send()?;
+        let resp = request(&self.base_url, location, &self.api_key)
+            .send()?;
         let weather = deserialize(&resp.text()?)?;
         Ok(weather)
     }
