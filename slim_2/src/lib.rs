@@ -83,7 +83,8 @@ mod tests {
 
     #[test]
     fn manifests_returns_cargo_toml_paths() {
-        let manifests = manifests("tests/data").unwrap();
+        let mut manifests = manifests("tests/data").unwrap();
+        manifests.sort();
         assert_eq!(
             manifests,
             vec![
