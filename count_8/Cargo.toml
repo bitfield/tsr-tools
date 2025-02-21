@@ -1,7 +1,7 @@
 [package]
 name = "count_8"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 authors = ["John Arundel <john@bitfieldconsulting.com>"]
 license = "MIT OR Apache-2.0"
 
