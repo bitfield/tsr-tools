@@ -20,7 +20,7 @@ fn main() -> Result<()> {
             println!("{path}: {} words", count.words);
         } else {
             println!("{path}: {} lines", count.lines);
-        };
+        }
     }
     Ok(())
 }
