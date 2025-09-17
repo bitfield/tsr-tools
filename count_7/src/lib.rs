@@ -32,7 +32,7 @@ pub fn count_lines_in_path(path: &String) -> Result<usize> {
 
 #[cfg(test)]
 mod tests {
-    use std::io::{self, Cursor, Error, ErrorKind, Read};
+    use std::io::{self, Cursor, Error, Read};
 
     use super::*;
 
@@ -47,7 +47,7 @@ mod tests {
 
     impl Read for ErrorReader {
         fn read(&mut self, _buf: &mut [u8]) -> io::Result<usize> {
-            Err(Error::new(ErrorKind::Other, "oh no"))
+            Err(Error::other("oh no"))
         }
     }
 

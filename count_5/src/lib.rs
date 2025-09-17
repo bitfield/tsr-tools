@@ -18,9 +18,7 @@ pub fn count_lines(input: impl BufRead) -> Result<usize> {
 
 #[cfg(test)]
 mod tests {
-    use std::io::{
-        self, BufReader, Cursor, Error, ErrorKind, Read,
-    };
+    use std::io::{self, BufReader, Cursor, Error, Read};
 
     use super::*;
 
@@ -35,7 +33,7 @@ mod tests {
 
     impl Read for ErrorReader {
         fn read(&mut self, _buf: &mut [u8]) -> io::Result<usize> {
-            Err(Error::new(ErrorKind::Other, "oh no"))
+            Err(Error::other("oh no"))
         }
     }
 

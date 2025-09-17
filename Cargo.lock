@@ -2601,7 +2601,6 @@ dependencies = [
  "clap",
  "httpmock",
  "reqwest",
- "serde",
  "serde_json",
  "url",
 ]
@@ -2614,7 +2613,6 @@ dependencies = [
  "clap",
  "httpmock",
  "reqwest",
- "serde",
  "serde_json",
  "url",
 ]
