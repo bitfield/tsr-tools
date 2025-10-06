@@ -125,8 +125,8 @@ mod tests {
         );
     }
 
+    use http::StatusCode;
     use httpmock::{Method, MockServer};
-    use reqwest::StatusCode;
 
     #[test]
     fn get_weather_fn_makes_correct_api_call() {
@@ -136,7 +136,7 @@ mod tests {
                 .path("/current")
                 .query_param("query", "London,UK")
                 .query_param("access_key", "dummy api key");
-            then.status(StatusCode::OK.into())
+            then.status(StatusCode::OK)
                 .header("content-type", "application/json")
                 .body_from_file("tests/data/ws.json");
         });
