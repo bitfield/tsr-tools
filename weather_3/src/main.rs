@@ -1,5 +1,7 @@
 use anyhow::Result;
-use clap::Parser;
+use clap::{CommandFactory, Parser};
+
+use std::env;
 
 use weather::Weatherstack;
 use weather_3 as weather;
@@ -21,6 +23,10 @@ struct Args {
 }
 
 fn main() -> Result<()> {
+    if env::args().count() < 2 {
+        Args::command().print_long_help()?;
+        return Ok(());
+    }
     let args = Args::parse();
     let location = args.location.join(" ");
     let ws = Weatherstack::new(&args.api_key);
