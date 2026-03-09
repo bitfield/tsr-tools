@@ -1,10 +1,9 @@
-use assert_cmd::Command;
+use assert_cmd::cargo::cargo_bin_cmd;
 use predicates::prelude::*;
 
 #[test]
 fn binary_with_no_args_prints_usage() {
-    Command::cargo_bin("count_8")
-        .unwrap()
+    cargo_bin_cmd!("count_8")
         .assert()
         .failure()
         .stderr(predicate::str::contains("Usage"));
@@ -12,8 +11,7 @@ fn binary_with_no_args_prints_usage() {
 
 #[test]
 fn binary_counts_lines_in_named_files() {
-    Command::cargo_bin("count_8")
-        .unwrap()
+    cargo_bin_cmd!("count_8")
         .args(["tests/data/test.txt", "tests/data/t2.txt"])
         .assert()
         .success()
@@ -22,8 +20,7 @@ fn binary_counts_lines_in_named_files() {
 
 #[test]
 fn binary_with_w_flag_counts_words() {
-    Command::cargo_bin("count_8")
-        .unwrap()
+    cargo_bin_cmd!("count_8")
         .args(["-w", "tests/data/test.txt"])
         .assert()
         .success()
