@@ -35,3 +35,7 @@ resolver = "2"
 
 [workspace.dependencies]
 reqwest = { version = "0.12.24", features = ["blocking"] }
+
+[workspace.lints.clippy]
+as_conversions = "deny"
+arithmetic_side_effects = "deny"
