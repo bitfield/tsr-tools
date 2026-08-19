@@ -1,11 +1,11 @@
-use anyhow::{Context, Result};
+use anyhow::{Context as _, Result};
 
 use std::{
     fs::File,
-    io::{BufRead, BufReader},
+    io::{BufRead, BufReader, Error},
 };
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub struct Count {
     pub lines: usize,
     pub words: usize,
@@ -20,8 +20,12 @@ pub fn count(mut input: impl BufRead) -> Result<Count> {
     let mut count = Count::default();
     let mut line = String::new();
     while input.read_line(&mut line)? > 0 {
-        count.lines += 1;
-        count.words += line.split_whitespace().count();
+        count.lines =
+            count.lines.checked_add(1).ok_or(Error::other("overflow"))?;
+        count.words = count
+            .words
+            .checked_add(line.split_whitespace().count())
+            .ok_or(Error::other("overflow"))?;
         line.clear();
     }
     Ok(count)
@@ -34,11 +38,14 @@ pub fn count(mut input: impl BufRead) -> Result<Count> {
 /// Returns any error from [`File::open`] or [`count`].
 pub fn count_in_path(path: &String) -> Result<Count> {
     let file = File::open(path).with_context(|| path.clone())?;
-    let file = BufReader::new(file);
-    count(file).with_context(|| path.clone())
+    let reader = BufReader::new(file);
+    count(reader).with_context(|| path.clone())
 }
 
 #[cfg(test)]
+#[expect(clippy::unwrap_used, reason = "test")]
+#[expect(clippy::expect_used, reason = "test")]
+#[expect(clippy::arbitrary_source_item_ordering, reason = "logical order")]
 mod tests {
     use std::io::{self, Cursor, Error, Read};
 
@@ -64,7 +71,7 @@ mod tests {
     fn count_returns_any_read_error() {
         let reader = BufReader::new(ErrorReader);
         let result = count(reader);
-        assert!(result.is_err());
+        result.expect_err("no error returned");
     }
 
     #[test]

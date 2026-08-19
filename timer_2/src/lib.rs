@@ -6,9 +6,9 @@ use std::{
 };
 
 pub struct Report {
-    pub stdout: String,
-    pub stderr: String,
     pub elapsed: Duration,
+    pub stderr: String,
+    pub stdout: String,
 }
 
 /// Runs `program` with `args`, returning output and elapsed time.
@@ -30,6 +30,7 @@ pub fn time(program: &str, args: &[String]) -> Result<Report> {
 }
 
 #[cfg(test)]
+#[expect(clippy::unwrap_used, reason = "tests")]
 mod tests {
     use super::*;
 

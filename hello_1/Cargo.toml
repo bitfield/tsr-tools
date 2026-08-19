@@ -5,5 +5,7 @@ edition = "2024"
 authors = ["John Arundel <john@bitfieldconsulting.com>"]
 license = "MIT OR Apache-2.0"
 
-
 [dependencies]
+
+[lints]
+workspace = true

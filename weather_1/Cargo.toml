@@ -6,3 +6,6 @@ license = "MIT OR Apache-2.0"
 
 [dependencies]
 reqwest = { workspace = true }
+
+[lints]
+workspace = true

@@ -1,6 +1,6 @@
 use std::{
     fs::{self, File},
-    io::{BufRead, BufReader, Result},
+    io::{BufRead as _, BufReader, Result},
     path::Path,
 };
 
@@ -25,14 +25,12 @@ pub fn open(path: impl AsRef<Path>) -> Result<Vec<String>> {
 /// # Errors
 ///
 /// Returns any error from [`fs::write`].
-pub fn sync(
-    memos: &[String],
-    path: impl AsRef<Path>,
-) -> Result<()> {
+pub fn sync(memos: &[String], path: impl AsRef<Path>) -> Result<()> {
     fs::write(&path, memos.join("\n"))
 }
 
 #[cfg(test)]
+#[expect(clippy::unwrap_used, reason = "tests")]
 mod tests {
     use tempfile::tempdir;
 
@@ -54,7 +52,7 @@ mod tests {
     fn sync_writes_vec_to_file() {
         let dir = tempdir().unwrap();
         let path = dir.path().join("memos.txt");
-        let vec = vec!["foo".to_string(), "bar".to_string()];
+        let vec = vec!["foo".to_owned(), "bar".to_owned()];
         sync(&vec, &path).unwrap();
         let memos = open(&path).unwrap();
         assert_eq!(memos, vec, "wrong data");

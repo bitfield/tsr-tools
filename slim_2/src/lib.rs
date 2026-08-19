@@ -12,6 +12,19 @@ pub struct Slimmer {
 }
 
 impl Slimmer {
+    fn cargo_clean_cmd(&self, target: impl AsRef<Path>) -> Command {
+        let mut cmd = Command::new("cargo");
+        cmd.args([
+            "clean",
+            "--manifest-path",
+            &target.as_ref().to_string_lossy(),
+        ]);
+        if self.dry_run {
+            cmd.arg("--dry-run");
+        }
+        cmd
+    }
+
     #[must_use]
     pub fn new() -> Self {
         Self::default()
@@ -36,19 +49,6 @@ impl Slimmer {
         }
         Ok(output)
     }
-
-    fn cargo_clean_cmd(&self, target: impl AsRef<Path>) -> Command {
-        let mut cmd = Command::new("cargo");
-        cmd.args([
-            "clean",
-            "--manifest-path",
-            &target.as_ref().to_string_lossy(),
-        ]);
-        if self.dry_run {
-            cmd.arg("--dry-run");
-        }
-        cmd
-    }
 }
 
 /// Finds all `Cargo.toml` files in the tree rooted at `path`.
@@ -56,6 +56,7 @@ impl Slimmer {
 /// # Errors
 ///
 /// Returns any errors encountered by [`walkdir`].
+#[expect(clippy::shadow_reuse, reason = "clarity")]
 fn manifests(path: impl AsRef<Path>) -> Result<Vec<PathBuf>> {
     let mut targets = Vec::new();
     for entry in WalkDir::new(path) {
@@ -67,7 +68,9 @@ fn manifests(path: impl AsRef<Path>) -> Result<Vec<PathBuf>> {
     Ok(targets)
 }
 
+#[expect(clippy::unwrap_used, reason = "safe by construction")]
 fn summary(target: impl AsRef<Path>, output: &Output) -> String {
+    // SAFETY: only `Cargo.toml` files can be targets, so they must have parents.
     format!(
         "{}: {}",
         target.as_ref().parent().unwrap().display(),
@@ -76,6 +79,7 @@ fn summary(target: impl AsRef<Path>, output: &Output) -> String {
 }
 
 #[cfg(test)]
+#[expect(clippy::unwrap_used, reason = "tests")]
 mod tests {
     use std::{path::PathBuf, process::ExitStatus};
 
@@ -99,9 +103,8 @@ mod tests {
     #[test]
     fn cargo_clean_cmd_fn_returns_correct_cargo_command() {
         let slimmer = Slimmer::new();
-        let cmd = slimmer.cargo_clean_cmd(PathBuf::from(
-            "code/proj_1/Cargo.toml",
-        ));
+        let cmd =
+            slimmer.cargo_clean_cmd(PathBuf::from("code/proj_1/Cargo.toml"));
         assert_eq!(cmd.get_program(), "cargo", "wrong program");
         assert_eq!(
             cmd.get_args().collect::<Vec<_>>(),
@@ -134,10 +137,8 @@ mod tests {
             PathBuf::from("./target/Cargo.toml"),
             &Output {
                 stdout: Vec::new(),
-                stderr: String::from(
-                    "     Removed 2 files, 1.6MiB total\n",
-                )
-                .into_bytes(),
+                stderr: String::from("     Removed 2 files, 1.6MiB total\n")
+                    .into_bytes(),
                 status: ExitStatus::default(),
             },
         );

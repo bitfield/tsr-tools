@@ -1,7 +1,7 @@
 use anyhow::Result;
 
 use std::{
-    fmt::Display,
+    fmt::{Display, Formatter},
     fs::{self, File},
     io::{BufReader, BufWriter},
     path::{Path, PathBuf},
@@ -11,8 +11,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, PartialEq)]
 pub struct Memos {
-    path: PathBuf,
     pub inner: Vec<Memo>,
+    pub path: PathBuf,
 }
 
 impl Memos {
@@ -31,8 +31,7 @@ impl Memos {
         };
         if fs::exists(&path)? {
             let file = File::open(path)?;
-            memos.inner =
-                serde_json::from_reader(BufReader::new(file))?;
+            memos.inner = serde_json::from_reader(BufReader::new(file))?;
         }
         Ok(memos)
     }
@@ -51,34 +50,30 @@ impl Memos {
 
 #[derive(Serialize, Deserialize, PartialEq, Debug)]
 pub struct Memo {
-    pub text: String,
     pub status: Status,
+    pub text: String,
 }
 
 impl Display for Memo {
-    fn fmt(
-        &self,
-        f: &mut std::fmt::Formatter<'_>,
-    ) -> std::fmt::Result {
+    #[expect(clippy::absolute_paths, reason = "not anyhow::Result")]
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "{} {}", self.status, self.text)
     }
 }
 
 #[derive(Serialize, Deserialize, PartialEq, Debug)]
 pub enum Status {
-    Pending,
     Done,
+    Pending,
 }
 
 impl Display for Status {
-    fn fmt(
-        &self,
-        f: &mut std::fmt::Formatter<'_>,
-    ) -> std::fmt::Result {
+    #[expect(clippy::absolute_paths, reason = "not anyhow::Result")]
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
             "{}",
-            match self {
+            match *self {
                 Self::Pending => "-",
                 Self::Done => "x",
             }
@@ -87,6 +82,7 @@ impl Display for Status {
 }
 
 #[cfg(test)]
+#[expect(clippy::unwrap_used, reason = "tests")]
 mod tests {
     use tempfile::tempdir;
 
@@ -106,11 +102,11 @@ mod tests {
             path: path.clone(),
             inner: vec![
                 Memo {
-                    text: "foo".to_string(),
+                    text: "foo".to_owned(),
                     status: Status::Pending,
                 },
                 Memo {
-                    text: "bar".to_string(),
+                    text: "bar".to_owned(),
                     status: Status::Pending,
                 },
             ],

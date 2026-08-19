@@ -12,3 +12,6 @@ serde_json = "1.0.133"
 
 [dev-dependencies]
 tempfile = "3.14.0"
+
+[lints]
+workspace = true

@@ -1,12 +1,12 @@
 use std::{
     fs::{self, File},
-    io::{BufRead, BufReader, Result},
+    io::{BufRead as _, BufReader, Result},
     path::{Path, PathBuf},
 };
 
 pub struct Memos {
-    path: PathBuf,
     pub inner: Vec<String>,
+    pub path: PathBuf,
 }
 
 impl Memos {
@@ -42,8 +42,10 @@ impl Memos {
 }
 
 #[cfg(test)]
+#[expect(clippy::unwrap_used, reason = "tests")]
 mod tests {
     use super::*;
+    use tempfile::tempdir;
 
     #[test]
     fn open_returns_data_from_given_file() {
@@ -57,21 +59,19 @@ mod tests {
         assert!(memos.inner.is_empty(), "vec not empty");
     }
 
-    use tempfile::tempdir;
-
     #[test]
     fn sync_writes_vec_to_file() {
         let dir = tempdir().unwrap();
         let path = dir.path().join("memos.txt");
         let memos = Memos {
             path: path.clone(),
-            inner: vec!["foo".to_string(), "bar".to_string()],
+            inner: vec!["foo".to_owned(), "bar".to_owned()],
         };
         memos.sync().unwrap();
-        let memos = Memos::open(&path).unwrap();
+        let memos2 = Memos::open(&path).unwrap();
         assert_eq!(
-            memos.inner,
-            vec!["foo".to_string(), "bar".to_string()],
+            memos2.inner,
+            vec!["foo".to_owned(), "bar".to_owned()],
             "wrong data"
         );
     }

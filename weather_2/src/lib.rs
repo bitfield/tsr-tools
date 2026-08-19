@@ -1,14 +1,21 @@
-use anyhow::{Context, Result};
+use anyhow::{Context as _, Result};
 
-use std::fmt::Display;
+use std::fmt::{Display, Formatter};
 
-use reqwest::blocking::RequestBuilder;
+use reqwest::blocking::{Client, RequestBuilder};
 use serde_json::Value;
 
-fn request(location: &str, api_key: &str) -> RequestBuilder {
-    reqwest::blocking::Client::new()
-        .get("https://api.weatherstack.com/current")
-        .query(&[("query", location), ("access_key", api_key)])
+#[derive(Debug, PartialEq)]
+pub struct Weather {
+    summary: String,
+    temperature: f64,
+}
+
+impl Display for Weather {
+    #[expect(clippy::absolute_paths, reason = "not anyhow::Result")]
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{} {:.1}ºC", self.summary, self.temperature)
+    }
 }
 
 fn deserialize(json: &str) -> Result<Weather> {
@@ -21,10 +28,10 @@ fn deserialize(json: &str) -> Result<Weather> {
         .pointer("/current/weather_descriptions/0")
         .and_then(Value::as_str)
         .with_context(|| format!("bad response: {val}"))?
-        .to_string();
+        .to_owned();
     Ok(Weather {
-        temperature,
         summary,
+        temperature,
     })
 }
 
@@ -34,31 +41,20 @@ fn deserialize(json: &str) -> Result<Weather> {
 ///
 /// Returns any errors making the request, from the server response, or from
 /// deserializing the JSON data.
-pub fn get_weather(
-    location: &str,
-    api_key: &str,
-) -> Result<Weather> {
+pub fn get_weather(location: &str, api_key: &str) -> Result<Weather> {
     let resp = request(location, api_key).send()?;
     let weather = deserialize(&resp.text()?)?;
     Ok(weather)
 }
 
-#[derive(Debug, PartialEq)]
-pub struct Weather {
-    temperature: f64,
-    summary: String,
-}
-
-impl Display for Weather {
-    fn fmt(
-        &self,
-        f: &mut std::fmt::Formatter<'_>,
-    ) -> std::fmt::Result {
-        write!(f, "{} {:.1}ºC", self.summary, self.temperature)
-    }
+fn request(location: &str, api_key: &str) -> RequestBuilder {
+    Client::new()
+        .get("https://api.weatherstack.com/current")
+        .query(&[("query", location), ("access_key", api_key)])
 }
 
 #[cfg(test)]
+#[expect(clippy::unwrap_used, reason = "tests")]
 mod tests {
     use std::fs;
 
@@ -68,8 +64,8 @@ mod tests {
 
     #[test]
     fn request_builds_correct_request() {
-        let req = request("London,UK", "dummy API key");
-        let req = req.build().unwrap();
+        let builder = request("London,UK", "dummy API key");
+        let req = builder.build().unwrap();
         assert_eq!(req.method(), "GET", "wrong method");
         let url = req.url();
         assert_eq!(
@@ -91,14 +87,13 @@ mod tests {
 
     #[test]
     fn deserialize_extracts_correct_weather_from_json() {
-        let json =
-            fs::read_to_string("tests/data/ws.json").unwrap();
+        let json = fs::read_to_string("tests/data/ws.json").unwrap();
         let weather = deserialize(&json).unwrap();
         assert_eq!(
             weather,
             Weather {
-                temperature: 11.2,
                 summary: "Sunny".into(),
+                temperature: 11.2,
             },
             "wrong weather"
         );

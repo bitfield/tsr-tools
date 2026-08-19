@@ -3,7 +3,7 @@ use anyhow::Result;
 use std::{
     env,
     fs::{self, File},
-    io::Write,
+    io::Write as _,
 };
 
 fn main() -> Result<()> {

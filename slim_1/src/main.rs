@@ -8,8 +8,8 @@ use slim_1 as slim;
 /// Runs `cargo clean` recursively to save disk space by deleting build
 /// artifacts.
 struct Args {
-    #[arg(default_value = ".")]
     /// Path to search for Rust projects.
+    #[arg(default_value = ".")]
     path: String,
 }
 

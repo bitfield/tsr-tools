@@ -12,3 +12,6 @@ clap = { version = "4.5.17", features = ["derive"] }
 [dev-dependencies]
 assert_cmd = "2.0.16"
 predicates = "3.1.2"
+
+[lints]
+workspace = true

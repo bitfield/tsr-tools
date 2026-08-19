@@ -4,15 +4,14 @@ use clap::Parser;
 use count_9::count_in_path;
 
 #[derive(Parser)]
-/// Counts lines or words in the specified files
+/// Counts lines or words in the specified files.
 struct Args {
-    /// Counts words instead of lines
-    #[arg(short, long)]
-    words: bool,
-
-    /// Files to be counted
+    /// Files to be counted.
     #[arg(required = true)]
     files: Vec<String>,
+    /// Counts words instead of lines.
+    #[arg(short, long)]
+    words: bool,
 }
 
 fn main() -> Result<()> {

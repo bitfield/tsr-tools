@@ -7,13 +7,13 @@ use memo_5 as memo;
 #[derive(Parser)]
 /// Stores and manages simple reminders.
 struct Args {
-    /// Marks all matching memos as done
+    /// Marks all matching memos as done.
     #[arg(short, long)]
     done: bool,
-    /// Deletes all memos with status “done”
+    /// Deletes all memos with status “done”.
     #[arg(short, long)]
     purge: bool,
-    /// Text of the memo to store or mark as done
+    /// Text of the memo to store or mark as done.
     text: Vec<String>,
 }
 
@@ -26,9 +26,9 @@ fn main() -> Result<()> {
         memos.sync()?;
     }
     if args.done {
-        for m in memos.find_all(&text) {
-            m.status = Status::Done;
-            println!("Marked \"{}\" as done.", m.text);
+        for memo in memos.find_all(&text) {
+            memo.status = Status::Done;
+            println!("Marked \"{}\" as done.", memo.text);
         }
         memos.sync()?;
     } else if args.text.is_empty() {
@@ -40,7 +40,7 @@ fn main() -> Result<()> {
             text: text.clone(),
             status: Status::Pending,
         });
-        println!("Added \"{}\" as a new memo.", &text);
+        println!("Added \"{text}\" as a new memo.");
         memos.sync()?;
     }
     Ok(())

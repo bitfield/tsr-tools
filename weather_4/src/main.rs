@@ -1,5 +1,5 @@
 use anyhow::Result;
-use clap::{CommandFactory, Parser};
+use clap::{CommandFactory as _, Parser};
 
 use std::env;
 
@@ -9,19 +9,14 @@ use weather_4 as weather;
 #[derive(Parser)]
 /// Shows the current weather for a given location.
 struct Args {
-    #[arg(
-        short,
-        long,
-        env = "WEATHERSTACK_API_KEY",
-        required = true
-    )]
-    /// Weatherstack API key
+    /// Weatherstack API key.
+    #[arg(short, long, env = "WEATHERSTACK_API_KEY", required = true)]
     api_key: String,
+    /// Report temperatures in Fahrenheit.
     #[arg(short, long)]
-    /// Report temperatures in Fahrenheit
     fahrenheit: bool,
+    /// Example: "London,UK".
     #[arg(required = true)]
-    /// Example: "London,UK"
     location: Vec<String>,
 }
 

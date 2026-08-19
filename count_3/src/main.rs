@@ -6,8 +6,8 @@ fn main() {
     let res = count_lines(stdin().lock());
     match res {
         Ok(lines) => println!("{lines} lines"),
-        Err(e) => {
-            eprintln!("{e}");
+        Err(err) => {
+            eprintln!("{err}");
             process::exit(1);
         }
     }

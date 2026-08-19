@@ -1,7 +1,7 @@
 use anyhow::Result;
 
 use std::{
-    fmt::Display,
+    fmt::{Display, Formatter},
     fs::{self, File},
     io::{BufReader, BufWriter},
     path::{Path, PathBuf},
@@ -11,20 +11,16 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, PartialEq)]
 pub struct Memos {
-    path: PathBuf,
     pub inner: Vec<Memo>,
+    pub path: PathBuf,
 }
 
 impl Memos {
     pub fn find_all(&mut self, text: &str) -> Vec<&mut Memo> {
         self.inner
             .iter_mut()
-            .filter(|m| m.text.contains(text))
+            .filter(|memo| memo.text.contains(text))
             .collect()
-    }
-
-    pub fn purge_done(&mut self) {
-        self.inner.retain(|m| m.status != Status::Done);
     }
 
     /// Reads the contents of the memo file at `path`.
@@ -42,10 +38,13 @@ impl Memos {
         };
         if fs::exists(&path)? {
             let file = File::open(path)?;
-            memos.inner =
-                serde_json::from_reader(BufReader::new(file))?;
+            memos.inner = serde_json::from_reader(BufReader::new(file))?;
         }
         Ok(memos)
+    }
+
+    pub fn purge_done(&mut self) {
+        self.inner.retain(|memo| memo.status != Status::Done);
     }
 
     /// Writes `memos` to the file at `path`, creating it if necessary.
@@ -62,34 +61,30 @@ impl Memos {
 
 #[derive(Serialize, Deserialize, PartialEq, Debug)]
 pub struct Memo {
-    pub text: String,
     pub status: Status,
+    pub text: String,
 }
 
 impl Display for Memo {
-    fn fmt(
-        &self,
-        f: &mut std::fmt::Formatter<'_>,
-    ) -> std::fmt::Result {
+    #[expect(clippy::absolute_paths, reason = "not anyhow::Result")]
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "{} {}", self.status, self.text)
     }
 }
 
 #[derive(Serialize, Deserialize, PartialEq, Debug)]
 pub enum Status {
-    Pending,
     Done,
+    Pending,
 }
 
 impl Display for Status {
-    fn fmt(
-        &self,
-        f: &mut std::fmt::Formatter<'_>,
-    ) -> std::fmt::Result {
+    #[expect(clippy::absolute_paths, reason = "not anyhow::Result")]
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
             "{}",
-            match self {
+            match *self {
                 Self::Pending => "-",
                 Self::Done => "x",
             }
@@ -98,6 +93,7 @@ impl Display for Status {
 }
 
 #[cfg(test)]
+#[expect(clippy::unwrap_used, reason = "tests")]
 mod tests {
     use tempfile::tempdir;
 
@@ -117,11 +113,11 @@ mod tests {
             path: path.clone(),
             inner: vec![
                 Memo {
-                    text: "foo".to_string(),
+                    text: "foo".to_owned(),
                     status: Status::Pending,
                 },
                 Memo {
-                    text: "bar".to_string(),
+                    text: "bar".to_owned(),
                     status: Status::Pending,
                 },
             ],
@@ -132,28 +128,29 @@ mod tests {
     }
 
     #[test]
+    #[expect(clippy::get_unwrap, reason = "test")]
     fn find_all_fn_returns_all_memos_matching_substring() {
         let mut memos = Memos {
             path: PathBuf::from("dummy"),
             inner: vec![
                 Memo {
-                    text: "foo".to_string(),
+                    text: "foo".to_owned(),
                     status: Status::Pending,
                 },
                 Memo {
-                    text: "bar".to_string(),
+                    text: "bar".to_owned(),
                     status: Status::Pending,
                 },
                 Memo {
-                    text: "food".to_string(),
+                    text: "food".to_owned(),
                     status: Status::Pending,
                 },
             ],
         };
         let found: Vec<&mut Memo> = memos.find_all("foo");
         assert_eq!(found.len(), 2, "wrong number of matches");
-        assert_eq!(found[0].text, "foo", "wrong match");
-        assert_eq!(found[1].text, "food", "wrong match");
+        assert_eq!(found.first().unwrap().text, "foo", "wrong match");
+        assert_eq!(found.get(1).unwrap().text, "food", "wrong match");
     }
 
     #[test]
@@ -162,15 +159,15 @@ mod tests {
             path: PathBuf::from("dummy"),
             inner: vec![
                 Memo {
-                    text: "foo".to_string(),
+                    text: "foo".to_owned(),
                     status: Status::Done,
                 },
                 Memo {
-                    text: "bar".to_string(),
+                    text: "bar".to_owned(),
                     status: Status::Done,
                 },
                 Memo {
-                    text: "food".to_string(),
+                    text: "food".to_owned(),
                     status: Status::Pending,
                 },
             ],
@@ -179,7 +176,7 @@ mod tests {
         assert_eq!(
             memos.inner,
             vec![Memo {
-                text: "food".to_string(),
+                text: "food".to_owned(),
                 status: Status::Pending,
             },],
             "wrong data"

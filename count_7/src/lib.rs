@@ -1,8 +1,8 @@
-use anyhow::{Context, Result};
+use anyhow::{Context as _, Result};
 
 use std::{
     fs::File,
-    io::{BufRead, BufReader},
+    io::{BufRead, BufReader, Error},
 };
 
 /// Counts lines in `input`.
@@ -11,10 +11,10 @@ use std::{
 ///
 /// Returns any error from [`BufRead::lines`].
 pub fn count_lines(input: impl BufRead) -> Result<usize> {
-    let mut count = 0;
+    let mut count: usize = 0;
     for line in input.lines() {
         line?;
-        count += 1;
+        count = count.checked_add(1).ok_or(Error::other("overflow"))?;
     }
     Ok(count)
 }
@@ -26,11 +26,14 @@ pub fn count_lines(input: impl BufRead) -> Result<usize> {
 /// Returns any error from [`File::open`] or [`count_lines`].
 pub fn count_lines_in_path(path: &String) -> Result<usize> {
     let file = File::open(path).with_context(|| path.clone())?;
-    let file = BufReader::new(file);
-    count_lines(file).with_context(|| path.clone())
+    let reader = BufReader::new(file);
+    count_lines(reader).with_context(|| path.clone())
 }
 
 #[cfg(test)]
+#[expect(clippy::unwrap_used, reason = "test")]
+#[expect(clippy::expect_used, reason = "test")]
+#[expect(clippy::arbitrary_source_item_ordering, reason = "logical order")]
 mod tests {
     use std::io::{self, Cursor, Error, Read};
 
@@ -55,7 +58,7 @@ mod tests {
     fn count_lines_fn_returns_any_read_error() {
         let reader = BufReader::new(ErrorReader);
         let result = count_lines(reader);
-        assert!(result.is_err());
+        result.expect_err("no error returned");
     }
 
     #[test]

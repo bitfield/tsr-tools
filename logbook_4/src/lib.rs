@@ -2,9 +2,11 @@
 //! observations.
 use anyhow::Result;
 
-use std::fs::{self, File};
-use std::io::Write;
-use std::path::Path;
+use std::{
+    fs::{self, File},
+    io::Write as _,
+    path::Path,
+};
 
 /// Reads the contents of the logbook file at `path`.
 ///
@@ -32,13 +34,13 @@ pub fn read(path: impl AsRef<Path>) -> Result<Option<String>> {
 ///
 /// Returns any error from [`open`](fs::OpenOptions::open) or [`writeln!`].
 pub fn append(path: impl AsRef<Path>, msg: &str) -> Result<()> {
-    let mut logbook =
-        File::options().create(true).append(true).open(path)?;
+    let mut logbook = File::options().create(true).append(true).open(path)?;
     writeln!(logbook, "{msg}")?;
     Ok(())
 }
 
 #[cfg(test)]
+#[expect(clippy::unwrap_used, reason = "tests")]
 mod tests {
     use tempfile::tempdir;
 

@@ -11,3 +11,6 @@ anyhow = "1.0.86"
 [dev-dependencies]
 assert_cmd = "2.0.16"
 predicates = "3.1.2"
+
+[lints]
+workspace = true

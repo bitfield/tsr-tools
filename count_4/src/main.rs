@@ -8,15 +8,15 @@ fn main() {
         process::exit(1);
     };
     let file = File::open(&path)
-        .map_err(|e| {
-            eprintln!("{e}");
+        .map_err(|err| {
+            eprintln!("{err}");
             process::exit(1);
         })
         .unwrap();
-    let file = BufReader::new(file);
-    let lines = count_lines(file)
-        .map_err(|e| {
-            eprintln!("{e}");
+    let reader = BufReader::new(file);
+    let lines = count_lines(reader)
+        .map_err(|err| {
+            eprintln!("{err}");
             process::exit(1);
         })
         .unwrap();
