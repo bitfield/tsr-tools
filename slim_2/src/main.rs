@@ -15,7 +15,7 @@ struct Args {
     #[arg(default_value = ".")]
     paths: Vec<String>,
 }
- 
+
 fn main() -> Result<()> {
     let args = Args::parse();
     let mut slimmer = Slimmer::new();
