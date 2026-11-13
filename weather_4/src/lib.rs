@@ -157,7 +157,6 @@ mod tests {
     }
 
     #[test]
-    #[expect(clippy::float_cmp, reason = "carefully-chosen values")]
     fn temperature_can_be_expressed_as_celsius_or_fahrenheit() {
         let temp = Temperature::from_celsius(10.0);
         assert_eq!(temp.as_celsius(), 10.0_f64, "wrong celsius");
